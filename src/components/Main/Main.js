@@ -7,10 +7,11 @@ import {
   Label,
   Input,
   FormText,
+  Modal,
   Button
 } from "reactstrap";
 import "./Main.scss";
-import InputField from "../Helpers/InputField";
+import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import Bericht from "../../model/Bericht";
 
 export default class Main extends React.Component {
@@ -20,7 +21,8 @@ export default class Main extends React.Component {
     this.state = {
       activities: "",
       instructions: "",
-      school: ""
+      school: "",
+      successModalVisible: false
     };
   }
 
@@ -37,6 +39,9 @@ export default class Main extends React.Component {
         activities: bericht.activities.toString(),
         instructions: bericht.instructions.toString(),
         school: bericht.school.toString()
+      })
+      .then(() => {
+        this.toggleSuccessModal();
       });
   }
 
@@ -50,6 +55,11 @@ export default class Main extends React.Component {
 
   onSchoolChanged(event) {
     this.setState({ school: event.target.value });
+  }
+
+  toggleSuccessModal() {
+    this.setState({ successModalVisible: !this.state.successModalVisible });
+    console.log(this.state.successModalVisible);
   }
 
   render() {
@@ -101,6 +111,10 @@ export default class Main extends React.Component {
             </Col>
           </FormGroup>
         </Form>
+        <SubmitSuccessModal
+          toggle={this.toggleSuccessModal.bind(this)}
+          isOpen={this.state.successModalVisible}
+        />
       </div>
     );
   }
