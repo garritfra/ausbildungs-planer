@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase";
+import { Button } from "reactstrap";
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class Main extends React.Component {
   render() {
     return (
       <div id="main">
-        <button onClick={this.addData.bind(this)}>Add Data</button>
+        <Button onClick={this.addData.bind(this)}>Add Data</Button>
       </div>
     );
   }
