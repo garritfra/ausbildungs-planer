@@ -42,6 +42,9 @@ export default class Main extends React.Component {
       })
       .then(() => {
         this.toggleSuccessModal();
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 
