@@ -78,6 +78,7 @@ export default class Main extends React.Component {
                 type="textarea"
                 name="activities"
                 id="activities"
+                className="textField"
                 onChange={this.onActivityChanged.bind(this)}
               />
             </Col>
@@ -91,6 +92,7 @@ export default class Main extends React.Component {
                 type="textarea"
                 name="instructions"
                 id="instructions"
+                className="textField"
                 onChange={this.onInstructionsChanged.bind(this)}
               />
             </Col>
@@ -104,6 +106,7 @@ export default class Main extends React.Component {
                 type="textarea"
                 name="school"
                 id="school"
+                className="textField"
                 onChange={this.onSchoolChanged.bind(this)}
               />
             </Col>
