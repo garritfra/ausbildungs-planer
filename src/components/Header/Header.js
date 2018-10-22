@@ -48,7 +48,7 @@ export default class Header extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem hidden={!this.state.isLoggedIn}>
-                <NavLink onClick={() => firebase.auth().signOut()}>
+                <NavLink href="/" onClick={() => firebase.auth().signOut()}>
                   Log Out
                 </NavLink>
               </NavItem>
