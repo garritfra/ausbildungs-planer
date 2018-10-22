@@ -10,7 +10,7 @@
     "deploy:minor": "npm run deploy && npm version minor",
     "deploy:major": "npm run deploy && npm version major",
     "deploy": "npm install && npm run build && firebase deploy --only hosting",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "repository": {
     "type": "git",
