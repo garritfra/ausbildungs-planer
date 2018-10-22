@@ -6,14 +6,11 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText,
-  Modal,
   Button,
   FormFeedback
 } from "reactstrap";
 import "./Main.scss";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
-import Bericht from "../../model/Bericht";
 
 export default class Main extends React.Component {
   constructor(props) {
