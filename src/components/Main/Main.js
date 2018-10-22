@@ -1,7 +1,6 @@
 import firebase from "firebase";
 import React from "react";
 import {
-  Col,
   Form,
   FormGroup,
   Label,
@@ -57,7 +56,6 @@ export default class Main extends React.Component {
         this.enableSubmitButton();
       })
       .catch(err => {
-        console.log(err);
         this.enableSubmitButton();
       });
   }
@@ -77,7 +75,6 @@ export default class Main extends React.Component {
           school: newBericht.school,
           isNewEntry: false
         });
-        console.log(newBericht);
         this.enableSubmitButton();
       })
       .catch(err => {
