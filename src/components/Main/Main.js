@@ -22,7 +22,8 @@ export default class Main extends React.Component {
       instructions: "",
       school: "",
       successModalVisible: false,
-      isNewEntry: true
+      isNewEntry: true,
+      submitButtonDisabled: false
     };
   }
 
@@ -30,7 +31,16 @@ export default class Main extends React.Component {
     this.fetchEntry(this.state.id);
   }
 
+  enableSubmitButton() {
+    this.setState({ submitButtonDisabled: false });
+  }
+
+  disableSubmitButton() {
+    this.setState({ submitButtonDisabled: true });
+  }
+
   onSubmit() {
+    this.disableSubmitButton();
     const newBericht = {
       id: this.state.id,
       activities: this.state.activities,
@@ -44,13 +54,16 @@ export default class Main extends React.Component {
       .set(newBericht)
       .then(() => {
         this.toggleSuccessModal();
+        this.enableSubmitButton();
       })
       .catch(err => {
         console.log(err);
+        this.enableSubmitButton();
       });
   }
 
   fetchEntry(id) {
+    this.disableSubmitButton();
     firebase
       .firestore()
       .collection("Berichte")
@@ -65,9 +78,11 @@ export default class Main extends React.Component {
           isNewEntry: false
         });
         console.log(newBericht);
+        this.enableSubmitButton();
       })
       .catch(err => {
         this.onNoEntryFound();
+        this.enableSubmitButton();
       });
   }
 
@@ -141,7 +156,13 @@ export default class Main extends React.Component {
             />
           </FormGroup>
           <FormGroup>
-            <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
+            <Button
+              disabled={this.state.submitButtonDisabled}
+              color="primary"
+              onClick={this.onSubmit.bind(this)}
+            >
+              Submit
+            </Button>
           </FormGroup>
         </Form>
         <Form className="right">
