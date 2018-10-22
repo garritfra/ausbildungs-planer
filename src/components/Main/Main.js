@@ -8,7 +8,8 @@ import {
   Input,
   FormText,
   Modal,
-  Button
+  Button,
+  FormFeedback
 } from "reactstrap";
 import "./Main.scss";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
@@ -19,32 +20,58 @@ export default class Main extends React.Component {
     super(props);
     this.props = props;
     this.state = {
+      id: 0,
       activities: "",
       instructions: "",
       school: "",
-      successModalVisible: false
+      successModalVisible: false,
+      isNewEntry: true
     };
   }
 
+  componentDidMount() {
+    this.fetchEntry(this.state.id);
+  }
+
   onSubmit() {
-    const bericht = new Bericht(
-      this.state.activities,
-      this.state.instructions,
-      this.state.school
-    );
+    const newBericht = {
+      id: this.state.id,
+      activities: this.state.activities,
+      instructions: this.state.instructions,
+      school: this.state.school
+    };
     firebase
       .firestore()
       .collection("Berichte")
-      .add({
-        activities: bericht.activities.toString(),
-        instructions: bericht.instructions.toString(),
-        school: bericht.school.toString()
-      })
+      .doc(this.state.id.toString())
+      .set(newBericht)
       .then(() => {
         this.toggleSuccessModal();
       })
       .catch(err => {
         console.log(err);
+      });
+  }
+
+  fetchEntry(id) {
+    firebase
+      .firestore()
+      .collection("Berichte")
+      .doc(id.toString())
+      .get()
+      .then(snapshot => snapshot.data())
+      .then(newBericht => {
+        this.setState({
+          id: newBericht.id,
+          activities: newBericht.activities,
+          instructions: newBericht.instructions,
+          school: newBericht.school,
+          isNewEntry: false
+        });
+        console.log(newBericht);
+      })
+      .catch(err => {
+        this.onNoEntryFound();
       });
   }
 
@@ -60,6 +87,21 @@ export default class Main extends React.Component {
     this.setState({ school: event.target.value });
   }
 
+  onEntryIdChanged(event) {
+    const newId = event.target.value;
+    this.setState({ id: newId });
+    this.fetchEntry(newId);
+  }
+
+  onNoEntryFound() {
+    this.setState({
+      activities: "",
+      instructions: "",
+      school: "",
+      isNewEntry: true
+    });
+  }
+
   toggleSuccessModal() {
     this.setState({ successModalVisible: !this.state.successModalVisible });
     console.log(this.state.successModalVisible);
@@ -68,53 +110,66 @@ export default class Main extends React.Component {
   render() {
     return (
       <div id="main">
-        <Form>
-          <FormGroup row>
-            <Label for="activities" sm={2}>
-              Betriebliche Tätigkeiten
-            </Label>
-            <Col sm={10}>
-              <Input
-                type="textarea"
-                name="activities"
-                id="activities"
-                className="textField"
-                onChange={this.onActivityChanged.bind(this)}
-              />
-            </Col>
+        <Form className="left">
+          <FormGroup>
+            <Label for="activities">Betriebliche Tätigkeiten</Label>
+            <Input
+              type="textarea"
+              name="activities"
+              id="activities"
+              className="textField"
+              onChange={this.onActivityChanged.bind(this)}
+              value={this.state.activities}
+            />
           </FormGroup>
-          <FormGroup row>
-            <Label for="instructions" sm={2}>
-              Schulungen
-            </Label>
-            <Col sm={10}>
-              <Input
-                type="textarea"
-                name="instructions"
-                id="instructions"
-                className="textField"
-                onChange={this.onInstructionsChanged.bind(this)}
-              />
-            </Col>
+          <FormGroup>
+            <Label for="instructions">Schulungen</Label>
+            <Input
+              type="textarea"
+              name="instructions"
+              id="instructions"
+              className="textField"
+              onChange={this.onInstructionsChanged.bind(this)}
+              value={this.state.instructions}
+            />
           </FormGroup>
-          <FormGroup row>
-            <Label for="school" sm={2}>
-              Berufsschule
-            </Label>
-            <Col sm={10}>
-              <Input
-                type="textarea"
-                name="school"
-                id="school"
-                className="textField"
-                onChange={this.onSchoolChanged.bind(this)}
-              />
-            </Col>
+          <FormGroup>
+            <Label for="school">Berufsschule</Label>
+            <Input
+              type="textarea"
+              name="school"
+              id="school"
+              className="textField"
+              onChange={this.onSchoolChanged.bind(this)}
+              value={this.state.school}
+            />
           </FormGroup>
-          <FormGroup check row>
-            <Col sm={{ size: 10, offset: 2 }}>
-              <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
-            </Col>
+          <FormGroup>
+            <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
+          </FormGroup>
+        </Form>
+        <Form className="right">
+          <FormGroup>
+            <Label for="number">Berichtsnummer</Label>
+            <Input
+              valid={this.state.isNewEntry}
+              onChange={this.onEntryIdChanged.bind(this)}
+              id="number"
+              type="number"
+              className="textField"
+              value={this.state.id}
+            />
+            <FormFeedback valid={this.state.isNewEntry}>
+              Das ist ein neuer Bericht!
+            </FormFeedback>
+          </FormGroup>
+          <FormGroup>
+            <Label for="dateStart">Woche von</Label>
+            <Input className="textField" type="date" />
+          </FormGroup>
+          <FormGroup>
+            <Label for="dateEnd">bis</Label>
+            <Input className="textField" type="date" />
           </FormGroup>
         </Form>
         <SubmitSuccessModal
