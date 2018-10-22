@@ -59,7 +59,6 @@ export default class Main extends React.Component {
       .then(snapshot => snapshot.data())
       .then(newBericht => {
         this.setState({
-          id: newBericht.id,
           activities: newBericht.activities,
           instructions: newBericht.instructions,
           school: newBericht.school,
