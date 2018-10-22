@@ -6,6 +6,9 @@
   "scripts": {
     "start": "parcel public/index.html",
     "build": "parcel build public/index.html",
+    "deploy:patch": "npm run deploy && npm version patch",
+    "deploy:minor": "npm run deploy && npm version minor",
+    "deploy:major": "npm run deploy && npm version major",
     "deploy": "npm install && npm run build && firebase deploy --only hosting",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
