@@ -16,7 +16,7 @@ export default class Main extends React.Component {
     super(props);
     this.props = props;
     this.state = {
-      id: null,
+      id: 1,
       activities: "",
       instructions: "",
       school: "",
@@ -27,17 +27,11 @@ export default class Main extends React.Component {
     };
   }
 
-  componentWillMount() {
-    firebase
-      .auth()
-      .onAuthStateChanged(user => this.setState({ currentUser: user }));
-  }
-
   componentDidMount() {
-    this.setState({ currentUser: firebase.auth().currentUser });
-    if (this.state.currentUser) {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ currentUser: user });
       this.fetchEntry(this.state.id);
-    }
+    });
   }
 
   enableSubmitButton() {
@@ -58,7 +52,7 @@ export default class Main extends React.Component {
     };
     firebase
       .firestore()
-      .collection("User")
+      .collection("Users")
       .doc(this.state.currentUser.email)
       .collection("Berichte")
       .doc(this.state.id.toString())
@@ -73,10 +67,11 @@ export default class Main extends React.Component {
   }
 
   fetchEntry(id) {
+    console.log(this.state.currentUser);
     this.disableSubmitButton();
     firebase
       .firestore()
-      .collection("User")
+      .collection("Users")
       .doc(this.state.currentUser.email)
       .collection("Berichte")
       .doc(id.toString())
