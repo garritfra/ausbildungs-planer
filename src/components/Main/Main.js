@@ -202,7 +202,6 @@ export default class Main extends React.Component {
               onChange={this.onEntryIdChanged.bind(this)}
               id="number"
               type="number"
-              className="textField"
               value={this.state.id}
             />
             <FormFeedback valid={this.state.isNewEntry}>
@@ -213,7 +212,6 @@ export default class Main extends React.Component {
             <Label for="dateStart">Woche von</Label>
             <Input
               onChange={this.onDateStartChanged.bind(this)}
-              className="textField"
               type="date"
               value={this.state.dateStart}
             />
@@ -222,7 +220,6 @@ export default class Main extends React.Component {
             <Label for="dateEnd">bis</Label>
             <Input
               onChange={this.onDateEndChanged.bind(this)}
-              className="textField"
               type="date"
               value={this.state.dateEnd}
             />
