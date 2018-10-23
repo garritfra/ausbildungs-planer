@@ -1,5 +1,5 @@
 import firebase, { User } from "firebase";
-import React from "react";
+import * as React from "react";
 import {
   Button,
   Form,
