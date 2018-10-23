@@ -17,7 +17,7 @@ export default class Main extends React.Component {
     this.props = props;
 
     this.state = {
-      id: 1,
+      id: null,
       activities: "",
       instructions: "",
       school: "",
