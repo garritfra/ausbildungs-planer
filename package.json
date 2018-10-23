@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/garritfra/ausbildungs-planer#readme",
   "dependencies": {
+    "@types/react": "^16.4.18",
+    "@types/react-dom": "^16.0.9",
     "bootstrap": "^4.1.3",
     "dotenv": "^6.1.0",
     "firebase": "^5.5.4",
