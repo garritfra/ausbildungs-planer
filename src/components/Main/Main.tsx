@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase, { User } from "firebase";
 import React from "react";
 import {
   Button,
@@ -11,7 +11,28 @@ import {
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
 
-export default class Main extends React.Component {
+interface IProps {}
+
+interface IState {
+  id: number;
+  activities: string;
+  instructions: string;
+  school: string;
+  dateStart: firebase.firestore.Timestamp;
+  dateEnd: firebase.firestore.Timestamp;
+  successModalVisible: boolean;
+  isNewEntry: boolean;
+  submitButtonDisabled: boolean;
+  currentUser: User;
+  entriesRef: any;
+  usersRef: any;
+}
+
+export default class Main extends React.Component<IProps, IState> {
+  props: IProps;
+  entriesRef: any;
+  userRef: firebase.firestore.DocumentReference;
+
   constructor(props) {
     super(props);
     this.props = props;
@@ -21,12 +42,14 @@ export default class Main extends React.Component {
       activities: "",
       instructions: "",
       school: "",
-      dateStart: new Date().getTime(),
-      dateEnd: new Date().getTime(),
+      dateStart: null,
+      dateEnd: null,
       successModalVisible: false,
       isNewEntry: true,
       submitButtonDisabled: false,
-      currentUser: undefined
+      currentUser: undefined,
+      entriesRef: undefined,
+      usersRef: undefined
     };
   }
 
