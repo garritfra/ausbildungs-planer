@@ -15,6 +15,7 @@ export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
+
     this.state = {
       id: 1,
       activities: "",
@@ -32,8 +33,18 @@ export default class Main extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ currentUser: user });
+      this.initializeFirebaseRefs();
+
       this.fetchEntry(this.state.id);
     });
+  }
+
+  initializeFirebaseRefs() {
+    this.userRef = firebase
+      .firestore()
+      .collection("Users")
+      .doc(this.state.currentUser.email);
+    this.entriesRef = this.userRef.collection("Berichte");
   }
 
   enableSubmitButton() {
@@ -54,11 +65,7 @@ export default class Main extends React.Component {
       dateStart: this.state.dateStart,
       dateEnd: this.state.dateEnd
     };
-    firebase
-      .firestore()
-      .collection("Users")
-      .doc(this.state.currentUser.email)
-      .collection("Berichte")
+    this.entriesRef
       .doc(this.state.id.toString())
       .set(newBericht)
       .then(() => {
@@ -73,11 +80,7 @@ export default class Main extends React.Component {
   fetchEntry(id) {
     console.log(this.state.currentUser);
     this.disableSubmitButton();
-    firebase
-      .firestore()
-      .collection("Users")
-      .doc(this.state.currentUser.email)
-      .collection("Berichte")
+    this.entriesRef
       .doc(id.toString())
       .get()
       .then(snapshot => snapshot.data())
