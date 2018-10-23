@@ -20,6 +20,8 @@ export default class Main extends React.Component {
       activities: "",
       instructions: "",
       school: "",
+      dateStart: new Date().getTime(),
+      dateEnd: new Date().getTime(),
       successModalVisible: false,
       isNewEntry: true,
       submitButtonDisabled: false,
@@ -48,7 +50,9 @@ export default class Main extends React.Component {
       id: this.state.id,
       activities: this.state.activities,
       instructions: this.state.instructions,
-      school: this.state.school
+      school: this.state.school,
+      dateStart: this.state.dateStart,
+      dateEnd: this.state.dateEnd
     };
     firebase
       .firestore()
@@ -82,6 +86,8 @@ export default class Main extends React.Component {
           activities: newBericht.activities,
           instructions: newBericht.instructions,
           school: newBericht.school,
+          dateStart: newBericht.dateStart,
+          dateEnd: newBericht.dateEnd,
           isNewEntry: false
         });
         this.enableSubmitButton();
@@ -108,6 +114,14 @@ export default class Main extends React.Component {
     const newId = event.target.value;
     this.setState({ id: newId });
     this.fetchEntry(newId);
+  }
+
+  onDateStartChanged(event) {
+    this.setState({ dateStart: event.target.value });
+  }
+
+  onDateEndChanged(event) {
+    this.setState({ dateEnd: event.target.value });
   }
 
   onNoEntryFound() {
@@ -188,11 +202,21 @@ export default class Main extends React.Component {
           </FormGroup>
           <FormGroup>
             <Label for="dateStart">Woche von</Label>
-            <Input className="textField" type="date" />
+            <Input
+              onChange={this.onDateStartChanged.bind(this)}
+              className="textField"
+              type="date"
+              value={this.state.dateStart}
+            />
           </FormGroup>
           <FormGroup>
             <Label for="dateEnd">bis</Label>
-            <Input className="textField" type="date" />
+            <Input
+              onChange={this.onDateEndChanged.bind(this)}
+              className="textField"
+              type="date"
+              value={this.state.dateEnd}
+            />
           </FormGroup>
         </Form>
         <SubmitSuccessModal
