@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import firebase from "firebase";
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "../src/components/App";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import App from "./components/App";
 
 require("dotenv").load();
 
