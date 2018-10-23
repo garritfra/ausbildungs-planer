@@ -1,5 +1,5 @@
-import React from "react";
 import firebase from "firebase";
+import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 export default class Login extends React.Component {

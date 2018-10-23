@@ -1,15 +1,15 @@
 import firebase from "firebase";
 import React from "react";
 import {
-  Form,
-  FormGroup,
-  Label,
-  Input,
   Button,
-  FormFeedback
+  Form,
+  FormFeedback,
+  FormGroup,
+  Input,
+  Label
 } from "reactstrap";
-import "./Main.scss";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
+import "./Main.scss";
 
 export default class Main extends React.Component {
   constructor(props) {

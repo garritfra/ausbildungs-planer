@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, ModalHeader, ModalBody, Button } from "reactstrap";
+import { Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
 export default class SubmitSuccessModal extends React.Component {
   constructor(props) {
