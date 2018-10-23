@@ -5,8 +5,14 @@ import Header from "./Header/Header";
 import Login from "./Login/Login";
 import Main from "./Main/Main";
 
-export default class App extends React.Component {
-  constructor(props) {
+interface IAppProps {}
+
+interface IAppState {}
+
+export default class App extends React.Component<IAppProps, IAppState> {
+  props: IAppProps;
+
+  constructor(props: IAppProps) {
     super(props);
     this.props = props;
   }
