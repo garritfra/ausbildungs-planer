@@ -35,7 +35,13 @@ export default class Main extends React.Component {
       this.setState({ currentUser: user });
       this.initializeFirebaseRefs();
 
-      this.fetchEntry(this.state.id);
+      this.entriesRef
+        .orderBy("id", "desc")
+        .limit(1)
+        .get()
+        .then(entry => entry.docs[0].data())
+        .then(data => this.setState({ id: data.id }))
+        .then(() => this.fetchEntry(this.state.id));
     });
   }
 
