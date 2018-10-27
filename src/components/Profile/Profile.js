@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import firebase from "firebase";
+import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ export default class Profile extends React.Component {
     this.props = props;
     this.state = {
       currentUser: null,
+      isSuccessModalOpen: false,
       name: "",
       betrieb: "",
       abteilung: "",
@@ -24,6 +26,10 @@ export default class Profile extends React.Component {
       this.setState({ currentUser: user });
       this.fetchData();
     });
+  }
+
+  toggleSuccessModal() {
+    this.setState({ isSuccessModalOpen: !this.state.isSuccessModalOpen });
   }
 
   fetchData() {
@@ -52,7 +58,7 @@ export default class Profile extends React.Component {
         ausbildungsende: this.state.ausbildungsende
       })
       .then(() => {
-        console.log("Success!");
+        this.toggleSuccessModal();
       })
       .catch(err => console.log(err));
   }
@@ -164,6 +170,10 @@ export default class Profile extends React.Component {
             Submit
           </Button>
         </Form>
+        <SubmitSuccessModal
+          toggle={this.toggleSuccessModal.bind(this)}
+          isOpen={this.state.isSuccessModalOpen}
+        />
       </Container>
     );
   }
