@@ -96,6 +96,7 @@ export default class Profile extends React.Component {
               type="text"
               defaultValue="Placeholder"
               placeholder="Name"
+              value={this.state.name}
               onChange={this.onNameChanged.bind(this)}
             />
           </FormGroup>
@@ -104,6 +105,7 @@ export default class Profile extends React.Component {
             <Input
               type="text"
               placeholder="Betrieb"
+              value={this.state.betrieb}
               onChange={this.onBetriebChanged.bind(this)}
             />
           </FormGroup>
@@ -113,6 +115,7 @@ export default class Profile extends React.Component {
             <Input
               type="text"
               placeholder="Abteilung"
+              value={this.state.abteilung}
               onChange={this.onAbteilungChanged.bind(this)}
             />
           </FormGroup>
@@ -122,6 +125,7 @@ export default class Profile extends React.Component {
             <Input
               type="text"
               placeholder="Projekt"
+              value={this.state.projekt}
               onChange={this.onProjektChanged.bind(this)}
             />
           </FormGroup>
@@ -131,6 +135,7 @@ export default class Profile extends React.Component {
             <Input
               type="text"
               placeholder="Ausbilder"
+              value={this.state.ausbilder}
               onChange={this.onAusbilderChanged.bind(this)}
             />
           </FormGroup>
@@ -140,6 +145,7 @@ export default class Profile extends React.Component {
             <Input
               type="date"
               placeholder="Anfang der Ausbildung"
+              value={this.state.ausbildungsanfang}
               onChange={this.onAusbildungsanfangChanged.bind(this)}
             />
           </FormGroup>
@@ -149,6 +155,7 @@ export default class Profile extends React.Component {
             <Input
               type="date"
               placeholder="Ende der Ausbildung"
+              value={this.state.ausbildungsende}
               onChange={this.onAusbildungsendeChanged.bind(this)}
             />
           </FormGroup>
