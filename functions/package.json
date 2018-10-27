@@ -9,8 +9,12 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
+    "docxtemplater": "^3.9.1",
     "firebase-admin": "~6.0.0",
-    "firebase-functions": "^2.0.3"
+    "firebase-functions": "^2.0.3",
+    "jszip": "^2.6.1",
+    "jszip-utils": "0.0.2",
+    "tmp": "0.0.33"
   },
   "private": true
 }
