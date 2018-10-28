@@ -10,21 +10,22 @@ import {
 } from "reactstrap";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
-import { NavLink } from "react-router-dom";
 import DateUtil from "../../util/DateUtil";
+import moment from "moment";
 
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
+    this.datePattern = "DD.MM.YYYY";
 
     this.state = {
       id: null,
       activities: "",
       instructions: "",
       school: "",
-      dateStart: new Date().getTime(),
-      dateEnd: new Date().getTime(),
+      dateStart: moment(),
+      dateEnd: moment(),
       successModalVisible: false,
       isNewEntry: true,
       submitButtonDisabled: false,
@@ -71,8 +72,8 @@ export default class Main extends React.Component {
       activities: this.state.activities,
       instructions: this.state.instructions,
       school: this.state.school,
-      dateStart: this.state.dateStart,
-      dateEnd: this.state.dateEnd
+      dateStart: this.state.dateStart.format(this.datePattern),
+      dateEnd: this.state.dateEnd.format(this.datePattern)
     };
     this.entriesRef
       .doc(this.state.id.toString())
@@ -87,7 +88,6 @@ export default class Main extends React.Component {
   }
 
   fetchEntry(id) {
-    console.log(this.state.currentUser);
     this.disableSubmitButton();
     this.entriesRef
       .doc(id.toString())
@@ -98,8 +98,8 @@ export default class Main extends React.Component {
           activities: newBericht.activities,
           instructions: newBericht.instructions,
           school: newBericht.school,
-          dateStart: newBericht.dateStart,
-          dateEnd: newBericht.dateEnd,
+          dateStart: moment(newBericht.dateStart, [this.datePattern]),
+          dateEnd: moment(newBericht.dateEnd, [this.datePattern]),
           isNewEntry: false
         });
         this.enableSubmitButton();
@@ -132,11 +132,13 @@ export default class Main extends React.Component {
   }
 
   onDateStartChanged(event) {
-    this.setState({ dateStart: event.target.value });
+    this.setState({
+      dateStart: moment(event.target.value, ["YYYY-MM-DD"])
+    });
   }
 
   onDateEndChanged(event) {
-    this.setState({ dateEnd: event.target.value });
+    this.setState({ dateEnd: moment(event.target.value, ["YYYY-MM-DD"]) });
   }
 
   onNoEntryFound() {
@@ -150,7 +152,6 @@ export default class Main extends React.Component {
 
   toggleSuccessModal() {
     this.setState({ successModalVisible: !this.state.successModalVisible });
-    console.log(this.state.successModalVisible);
   }
 
   setDownloadUrl() {
@@ -163,8 +164,8 @@ export default class Main extends React.Component {
         const ausbilder = data.ausbilder;
         const abteilung = data.abteilung;
         const projekt = data.projekt;
-        const bericht_von = this.state.dateStart;
-        const bericht_bis = this.state.dateEnd;
+        const bericht_von = this.state.dateStart.format(this.datePattern);
+        const bericht_bis = this.state.dateEnd.format(this.datePattern);
         const nachweisnr = this.state.id;
         const kalenderwoche = DateUtil.getCalendarWeek(bericht_von);
         const ausbildungs_jahr = DateUtil.getCurrentYearAfterDate(
@@ -250,7 +251,7 @@ export default class Main extends React.Component {
             <Input
               onChange={this.onDateStartChanged.bind(this)}
               type="date"
-              value={this.state.dateStart}
+              value={this.state.dateStart.format("YYYY-MM-DD")}
             />
           </FormGroup>
           <FormGroup>
@@ -258,7 +259,7 @@ export default class Main extends React.Component {
             <Input
               onChange={this.onDateEndChanged.bind(this)}
               type="date"
-              value={this.state.dateEnd}
+              value={this.state.dateEnd.format("YYYY-MM-DD")}
             />
           </FormGroup>
         </Form>
