@@ -8,7 +8,9 @@ export default class DateUtil {
 
   static getCurrentYearAfterDate(beginning, currentDate) {
     const duration = moment.duration(
-      moment(currentDate).diff(moment(beginning))
+      moment(currentDate, ["DD.MM.YYYY"]).diff(
+        moment(beginning, ["DD.MM.YYYY"])
+      )
     );
     return Math.ceil(duration.asYears());
   }
