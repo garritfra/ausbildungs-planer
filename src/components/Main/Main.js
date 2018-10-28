@@ -81,6 +81,7 @@ export default class Main extends React.Component {
       .then(() => {
         this.toggleSuccessModal();
         this.enableSubmitButton();
+        this.fetchEntry(this.state.id.toString());
       })
       .catch(err => {
         this.enableSubmitButton();
