@@ -227,9 +227,9 @@ export default class Main extends React.Component {
             >
               Submit
             </Button>
-            <a target="_blank" href={this.state.downloadUrl}>
-              Download
-            </a>
+            <Button className="ml-1" color="info" href={this.state.downloadUrl}>
+              Download als Docx
+            </Button>
           </FormGroup>
         </Form>
         <Form className="right">
