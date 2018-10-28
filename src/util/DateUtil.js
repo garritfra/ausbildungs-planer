@@ -2,9 +2,8 @@ import moment from "moment";
 
 export default class DateUtil {
   static getCalendarWeek(date) {
-    const dateMoment = moment(date);
-    console.log(dateMoment.weeks());
-    return dateMoment.week();
+    const momentDate = moment(date, ["DD.MM.YYYY"]);
+    return momentDate.weeks();
   }
 
   static getCurrentYearAfterDate(beginning, currentDate) {
