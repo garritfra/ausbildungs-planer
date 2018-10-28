@@ -176,9 +176,11 @@ export default class Main extends React.Component {
         const schulungen = this.state.instructions;
         const schule = this.state.school;
         this.setState({
-          downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}`
+          downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}`.replace(
+            " ",
+            "%20"
+          )
         });
-        this.setState({ downloadUrl: downloadUrl.replace(" ", "%20") });
       });
   }
 
@@ -240,7 +242,7 @@ export default class Main extends React.Component {
               onChange={this.onEntryIdChanged.bind(this)}
               id="number"
               type="number"
-              value={this.state.id}
+              value={this.state.id || ""}
             />
             <FormFeedback valid={this.state.isNewEntry}>
               Das ist ein neuer Bericht!
@@ -251,7 +253,7 @@ export default class Main extends React.Component {
             <Input
               onChange={this.onDateStartChanged.bind(this)}
               type="date"
-              value={this.state.dateStart.format("YYYY-MM-DD")}
+              value={this.state.dateStart.format("YYYY-MM-DD") || ""}
             />
           </FormGroup>
           <FormGroup>
@@ -259,7 +261,7 @@ export default class Main extends React.Component {
             <Input
               onChange={this.onDateEndChanged.bind(this)}
               type="date"
-              value={this.state.dateEnd.format("YYYY-MM-DD")}
+              value={this.state.dateEnd.format("YYYY-MM-DD") || ""}
             />
           </FormGroup>
         </Form>
