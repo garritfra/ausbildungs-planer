@@ -11,6 +11,7 @@ import {
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
 import { NavLink } from "react-router-dom";
+import DateUtil from "../../util/DateUtil";
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -165,7 +166,7 @@ export default class Main extends React.Component {
         const bericht_von = this.state.dateStart;
         const bericht_bis = this.state.dateEnd;
         const nachweisnr = this.state.id;
-        const kalenderwoche = "Nicht Angegeben";
+        const kalenderwoche = DateUtil.getCalendarWeek(bericht_von);
         const ausbildungs_jahr = 2;
         const taetigkeiten = this.state.activities;
         const schulungen = this.state.instructions;
