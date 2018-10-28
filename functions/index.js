@@ -17,21 +17,30 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
   let doc = new Docxtemplater();
   doc.loadZip(zip);
 
+  const today = new Date();
+  const todayStr =
+    today.getDate().toString() +
+    "." +
+    today.getMonth().toString() +
+    "." +
+    today.getFullYear().toString();
+  console.log(today);
+
   doc.setData({
-    name: "Garrit Frnkae",
-    betrieb: "ckc",
-    ausbilder: "Jonas",
-    abteilung: "Mobile Lab",
-    projekt: "Ausbildung",
-    bericht_von: "01.03.2018",
-    bericht_bis: "05.03.2018",
-    nachweisnr: "50",
-    kalenderwoche: 24,
-    ausbildungs_jahr: 1,
-    taetigkeiten: "- asdölkasdlöaskd",
-    schulungen: "-aslkdjlasd",
-    schule: "löaskdölasödkasd",
-    datum_heute: "12.02.2019"
+    name: req.query.name,
+    betrieb: req.query.betrieb,
+    ausbilder: req.query.ausbilder,
+    abteilung: req.query.abteilung,
+    projekt: req.query.projekt,
+    bericht_von: req.query.bericht_von,
+    bericht_bis: req.query.bericht_bis,
+    nachweisnr: req.query.nachweisnr,
+    kalenderwoche: req.query.kalenderwoche,
+    ausbildungs_jahr: req.query.ausbildungs_jahr,
+    taetigkeiten: req.query.taetigkeiten,
+    schulungen: req.query.schulungen,
+    schule: req.query.schule,
+    datum_heute: req.query.datum_heute || todayStr
   });
 
   try {
