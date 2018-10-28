@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import firebase from "firebase";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
+import moment from "moment";
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -15,8 +16,8 @@ export default class Profile extends React.Component {
       abteilung: "",
       projekt: "",
       ausbilder: "",
-      ausbildungsanfang: "",
-      ausbildungsende: ""
+      ausbildungsanfang: moment(),
+      ausbildungsende: moment()
     };
     this.userRef = null;
   }
@@ -42,7 +43,11 @@ export default class Profile extends React.Component {
       .get()
       .then(snapshot => snapshot.data())
       .then(user => {
-        this.setState({ ...user });
+        this.setState({
+          ...user,
+          ausbildungsanfang: moment(user.ausbildungsanfang, ["DD.MM.YYYY"]),
+          ausbildungsende: moment(user.ausbildungsende, ["DD.MM.YYYY"])
+        });
       });
   }
 
@@ -54,8 +59,8 @@ export default class Profile extends React.Component {
         abteilung: this.state.abteilung,
         projekt: this.state.projekt,
         ausbilder: this.state.ausbilder,
-        ausbildungsanfang: this.state.ausbildungsanfang,
-        ausbildungsende: this.state.ausbildungsende
+        ausbildungsanfang: this.state.ausbildungsanfang.format("DD.MM.YYYY"),
+        ausbildungsende: this.state.ausbildungsende.format("DD.MM.YYYY")
       })
       .then(() => {
         this.toggleSuccessModal();
@@ -85,11 +90,15 @@ export default class Profile extends React.Component {
   }
 
   onAusbildungsanfangChanged(event) {
-    this.setState({ ausbildungsanfang: event.target.value });
+    this.setState({
+      ausbildungsanfang: moment(event.target.value, ["YYYY-MM-DD"])
+    });
   }
 
   onAusbildungsendeChanged(event) {
-    this.setState({ ausbildungsende: event.target.value });
+    this.setState({
+      ausbildungsende: moment(event.target.value, ["YYYY-MM-DD"])
+    });
   }
 
   render() {
@@ -151,7 +160,7 @@ export default class Profile extends React.Component {
             <Input
               type="date"
               placeholder="Anfang der Ausbildung"
-              value={this.state.ausbildungsanfang}
+              value={this.state.ausbildungsanfang.format("YYYY-MM-DD")}
               onChange={this.onAusbildungsanfangChanged.bind(this)}
             />
           </FormGroup>
@@ -161,7 +170,7 @@ export default class Profile extends React.Component {
             <Input
               type="date"
               placeholder="Ende der Ausbildung"
-              value={this.state.ausbildungsende}
+              value={this.state.ausbildungsende.format("YYYY-MM-DD")}
               onChange={this.onAusbildungsendeChanged.bind(this)}
             />
           </FormGroup>
