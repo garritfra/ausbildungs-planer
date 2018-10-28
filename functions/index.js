@@ -6,13 +6,6 @@ var tmp = require("tmp");
 var fs = require("fs");
 var path = require("path");
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
 exports.exportToDocx = functions.https.onRequest((req, res) => {
   let content = fs.readFileSync(
     path.resolve(__dirname, "AusbNachweis_TEMPLATE.docx"),
@@ -61,5 +54,6 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
   let outfile = tmp.fileSync();
   // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
   fs.writeFileSync(path.resolve(outfile.name), buf);
-  res.sendFile(path.resolve(outfile.name));
+  console.log(outfile);
+  res.download(path.resolve(outfile.name), documentName);
 });
