@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export default class DateUtil {
   static getCalendarWeek(date) {
     // Copy date so don't modify original
@@ -10,6 +12,13 @@ export default class DateUtil {
     // Calculate full weeks to nearest Thursday
     const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
     // Return array of year and week number
-    return [weekNo];
+    return weekNo;
+  }
+
+  static getCurrentYearAfterDate(beginning, currentDate) {
+    const duration = moment.duration(
+      moment(currentDate).diff(moment(beginning))
+    );
+    return Math.ceil(duration.asYears());
   }
 }

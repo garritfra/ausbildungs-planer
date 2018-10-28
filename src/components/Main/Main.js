@@ -167,7 +167,10 @@ export default class Main extends React.Component {
         const bericht_bis = this.state.dateEnd;
         const nachweisnr = this.state.id;
         const kalenderwoche = DateUtil.getCalendarWeek(bericht_von);
-        const ausbildungs_jahr = 2;
+        const ausbildungs_jahr = DateUtil.getCurrentYearAfterDate(
+          data.ausbildungsanfang,
+          bericht_von
+        );
         const taetigkeiten = this.state.activities;
         const schulungen = this.state.instructions;
         const schule = this.state.school;
@@ -175,7 +178,6 @@ export default class Main extends React.Component {
           downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}`
         });
         this.setState({ downloadUrl: downloadUrl.replace(" ", "%20") });
-        console.log(this.state.downloadUrl);
       });
   }
 
