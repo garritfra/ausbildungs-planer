@@ -15,6 +15,7 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
   let zip = new JSZip(content);
 
   let doc = new Docxtemplater();
+  doc.setOptions({ linebreaks: true });
   doc.loadZip(zip);
 
   const today = new Date();
@@ -24,7 +25,6 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
     today.getMonth().toString() +
     "." +
     today.getFullYear().toString();
-  console.log(today);
 
   doc.setData({
     name: req.query.name,
