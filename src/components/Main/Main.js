@@ -160,11 +160,11 @@ export default class Main extends React.Component {
       .get()
       .then(snapshot => snapshot.data())
       .then(data => {
-        const name = data.name;
-        const betrieb = data.betrieb;
-        const ausbilder = data.ausbilder;
-        const abteilung = data.abteilung;
-        const projekt = data.projekt;
+        const name = encodeURI(data.name);
+        const betrieb = encodeURI(data.betrieb);
+        const ausbilder = encodeURI(data.ausbilder);
+        const abteilung = encodeURI(data.abteilung);
+        const projekt = encodeURI(data.projekt);
         const bericht_von = this.state.dateStart.format(this.datePattern);
         const bericht_bis = this.state.dateEnd.format(this.datePattern);
         const nachweisnr = this.state.id;
@@ -173,14 +173,11 @@ export default class Main extends React.Component {
           data.ausbildungsanfang,
           bericht_von
         );
-        const taetigkeiten = this.state.activities;
-        const schulungen = this.state.instructions;
-        const schule = this.state.school;
+        const taetigkeiten = encodeURI(this.state.activities);
+        const schulungen = encodeURI(this.state.instructions);
+        const schule = encodeURI(this.state.school);
         this.setState({
-          downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}`.replace(
-            " ",
-            "%20"
-          )
+          downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}`
         });
       });
   }
