@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
+import { NavLink } from "react-router-dom";
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -26,7 +27,8 @@ export default class Main extends React.Component {
       successModalVisible: false,
       isNewEntry: true,
       submitButtonDisabled: false,
-      currentUser: undefined
+      currentUser: undefined,
+      downloadUrl: undefined
     };
   }
 
@@ -101,6 +103,9 @@ export default class Main extends React.Component {
         });
         this.enableSubmitButton();
       })
+      .then(() => {
+        this.setDownloadUrl();
+      })
       .catch(err => {
         this.onNoEntryFound();
         this.enableSubmitButton();
@@ -145,6 +150,32 @@ export default class Main extends React.Component {
   toggleSuccessModal() {
     this.setState({ successModalVisible: !this.state.successModalVisible });
     console.log(this.state.successModalVisible);
+  }
+
+  setDownloadUrl() {
+    this.userRef
+      .get()
+      .then(snapshot => snapshot.data())
+      .then(data => {
+        const name = data.name;
+        const betrieb = data.betrieb;
+        const ausbilder = data.ausbilder;
+        const abteilung = data.abteilung;
+        const projekt = data.projekt;
+        const bericht_von = this.state.dateStart;
+        const bericht_bis = this.state.dateEnd;
+        const nachweisnr = this.state.id;
+        const kalenderwoche = "Nicht Angegeben";
+        const ausbildungs_jahr = 2;
+        const taetigkeiten = this.state.activities;
+        const schulungen = this.state.instructions;
+        const schule = this.state.school;
+        this.setState({
+          downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}`
+        });
+        this.setState({ downloadUrl: downloadUrl.replace(" ", "%20") });
+        console.log(this.state.downloadUrl);
+      });
   }
 
   render() {
@@ -192,6 +223,9 @@ export default class Main extends React.Component {
             >
               Submit
             </Button>
+            <a target="_blank" href={this.state.downloadUrl}>
+              Download
+            </a>
           </FormGroup>
         </Form>
         <Form className="right">
