@@ -53,15 +53,18 @@ export default class Profile extends React.Component {
 
   updateData() {
     this.userRef
-      .update({
-        name: this.state.name,
-        betrieb: this.state.betrieb,
-        abteilung: this.state.abteilung,
-        projekt: this.state.projekt,
-        ausbilder: this.state.ausbilder,
-        ausbildungsanfang: this.state.ausbildungsanfang.format("DD.MM.YYYY"),
-        ausbildungsende: this.state.ausbildungsende.format("DD.MM.YYYY")
-      })
+      .set(
+        {
+          name: this.state.name,
+          betrieb: this.state.betrieb,
+          abteilung: this.state.abteilung,
+          projekt: this.state.projekt,
+          ausbilder: this.state.ausbilder,
+          ausbildungsanfang: this.state.ausbildungsanfang.format("DD.MM.YYYY"),
+          ausbildungsende: this.state.ausbildungsende.format("DD.MM.YYYY")
+        },
+        { merge: true }
+      )
       .then(() => {
         this.toggleSuccessModal();
       })
