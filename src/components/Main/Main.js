@@ -20,7 +20,7 @@ export default class Main extends React.Component {
     this.datePattern = "DD.MM.YYYY";
 
     this.state = {
-      id: null,
+      id: 1,
       activities: "",
       instructions: "",
       school: "",
