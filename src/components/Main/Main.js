@@ -1,13 +1,7 @@
 import firebase from "firebase";
 import React from "react";
-import {
-  Button,
-  Form,
-  FormFeedback,
-  FormGroup,
-  Input,
-  Label
-} from "reactstrap";
+import { Button, Icon } from "antd";
+import { Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
 import DateUtil from "../../util/DateUtil";
@@ -223,12 +217,17 @@ export default class Main extends React.Component {
           <FormGroup>
             <Button
               disabled={this.state.submitButtonDisabled}
-              color="primary"
+              type="primary"
               onClick={this.onSubmit.bind(this)}
             >
               Submit
             </Button>
-            <Button className="ml-1" color="info" href={this.state.downloadUrl}>
+            <Button
+              className="ml-1"
+              type="info"
+              icon="download"
+              href={this.state.downloadUrl}
+            >
               Download als Docx
             </Button>
           </FormGroup>
