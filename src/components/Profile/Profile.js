@@ -62,7 +62,8 @@ export default class Profile extends React.Component {
           projekt: this.state.projekt,
           ausbilder: this.state.ausbilder,
           ausbildungsanfang: this.state.ausbildungsanfang.format("DD.MM.YYYY"),
-          ausbildungsende: this.state.ausbildungsende.format("DD.MM.YYYY")
+          ausbildungsende: this.state.ausbildungsende.format("DD.MM.YYYY"),
+          stadt: this.state.stadt
         },
         { merge: true }
       )
