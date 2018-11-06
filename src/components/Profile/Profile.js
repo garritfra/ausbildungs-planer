@@ -185,10 +185,10 @@ export default class Profile extends React.Component {
           </FormGroup>
 
           <FormGroup>
-            <Label for="ausbildungssitz">Stadt des Ausbildungssitzes</Label>
+            <Label for="ausbildungssitz">Stadt des Ausbildungsbetriebes</Label>
             <Input
               type="text"
-              placeholder="Stadt des Ausbildungssitzes"
+              placeholder="Stadt des Ausbildungsbetriebes"
               value={this.state.stadt}
               onChange={this.onStadtChanged.bind(this)}
             />
