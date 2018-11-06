@@ -40,7 +40,8 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
     taetigkeiten: req.query.taetigkeiten,
     schulungen: req.query.schulungen,
     schule: req.query.schule,
-    datum_heute: req.query.datum_heute || todayStr
+    datum_heute: req.query.datum_heute || todayStr,
+    stadt: req.query.stadt || "Braunschweig"
   });
 
   try {
