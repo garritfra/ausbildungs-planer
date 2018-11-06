@@ -37,6 +37,8 @@
     "reactstrap": "^6.5.0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "node-sass": "^4.9.0",
     "parcel": "^1.8.1"
   }
