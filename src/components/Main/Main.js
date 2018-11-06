@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import React from "react";
-import { Button, Input } from "antd";
-import { Form, FormFeedback, FormGroup, Label } from "reactstrap";
+import { Button, Input, DatePicker, Row, Form } from "antd";
+import { FormFeedback, FormGroup, Label } from "reactstrap";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
 import DateUtil from "../../util/DateUtil";
@@ -180,92 +180,77 @@ export default class Main extends React.Component {
   render() {
     return (
       <div id="main">
-        <Form className="left">
-          <FormGroup>
-            <Label for="activities">Betriebliche Tätigkeiten</Label>
-            <Input.TextArea
-              type="textarea"
-              name="activities"
-              id="activities"
-              className="textField"
-              autosize
-              onChange={this.onActivityChanged.bind(this)}
-              value={this.state.activities}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="instructions">Schulungen</Label>
-            <Input.TextArea
-              type="textarea"
-              name="instructions"
-              id="instructions"
-              className="textField"
-              autosize
-              onChange={this.onInstructionsChanged.bind(this)}
-              value={this.state.instructions}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="school">Berufsschule</Label>
-            <Input.TextArea
-              type="textarea"
-              name="school"
-              id="school"
-              className="textField"
-              autosize
-              onChange={this.onSchoolChanged.bind(this)}
-              value={this.state.school}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Button
-              disabled={this.state.submitButtonDisabled}
-              type="primary"
-              onClick={this.onSubmit.bind(this)}
-            >
-              Submit
-            </Button>
-            <Button
-              className="ml-1"
-              type="info"
-              icon="download"
-              href={this.state.downloadUrl}
-            >
-              Download als Docx
-            </Button>
-          </FormGroup>
-        </Form>
-        <Form className="right">
-          <FormGroup>
-            <Label for="number">Berichtsnummer</Label>
-            <Input
-              valid={this.state.isNewEntry}
-              onChange={this.onEntryIdChanged.bind(this)}
-              id="number"
-              type="number"
-              value={this.state.id || ""}
-            />
-            <FormFeedback valid={this.state.isNewEntry}>
-              Das ist ein neuer Bericht!
-            </FormFeedback>
-          </FormGroup>
-          <FormGroup>
-            <Label for="dateStart">Woche von</Label>
-            <Input
-              onChange={this.onDateStartChanged.bind(this)}
-              type="date"
-              value={this.state.dateStart.format("YYYY-MM-DD") || ""}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="dateEnd">bis</Label>
-            <Input
-              onChange={this.onDateEndChanged.bind(this)}
-              type="date"
-              value={this.state.dateEnd.format("YYYY-MM-DD") || ""}
-            />
-          </FormGroup>
-        </Form>
+        <Form.Item label="Berichtsnummer">
+          <Input
+            type="number"
+            valid={this.state.isNewEntry}
+            onChange={this.onEntryIdChanged.bind(this)}
+            value={this.state.id || ""}
+          />
+          <FormFeedback valid={this.state.isNewEntry}>
+            Das ist ein neuer Bericht!
+          </FormFeedback>
+        </Form.Item>
+        <Form.Item label="Woche">
+          <DatePicker.RangePicker
+            label="Woche"
+            value={[this.state.dateStart, this.state.dateEnd]}
+          />
+        </Form.Item>
+        <FormGroup>
+          <Label for="activities">Betriebliche Tätigkeiten</Label>
+          <Input.TextArea
+            type="textarea"
+            name="activities"
+            id="activities"
+            className="textField"
+            autosize
+            onChange={this.onActivityChanged.bind(this)}
+            value={this.state.activities}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="instructions">Schulungen</Label>
+          <Input.TextArea
+            type="textarea"
+            name="instructions"
+            id="instructions"
+            className="textField"
+            autosize
+            onChange={this.onInstructionsChanged.bind(this)}
+            value={this.state.instructions}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="school">Berufsschule</Label>
+          <Input.TextArea
+            type="textarea"
+            name="school"
+            id="school"
+            className="textField"
+            autosize
+            onChange={this.onSchoolChanged.bind(this)}
+            value={this.state.school}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Button
+            loading={this.state.submitButtonDisabled}
+            type="primary"
+            onClick={this.onSubmit.bind(this)}
+          >
+            Submit
+          </Button>
+          <Button
+            className="ml-1"
+            type="info"
+            icon="download"
+            href={this.state.downloadUrl}
+          >
+            Download als Docx
+          </Button>
+        </FormGroup>
+
         <SubmitSuccessModal
           toggle={this.toggleSuccessModal.bind(this)}
           isOpen={this.state.successModalVisible}
