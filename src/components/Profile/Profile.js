@@ -17,7 +17,8 @@ export default class Profile extends React.Component {
       projekt: "",
       ausbilder: "",
       ausbildungsanfang: moment(),
-      ausbildungsende: moment()
+      ausbildungsende: moment(),
+      stadt: ""
     };
     this.userRef = null;
   }
@@ -104,6 +105,10 @@ export default class Profile extends React.Component {
     });
   }
 
+  onStadtChanged(event) {
+    this.setState({ stadt: event.target.value });
+  }
+
   render() {
     return (
       <Container className="mt-5">
@@ -175,6 +180,16 @@ export default class Profile extends React.Component {
               placeholder="Ende der Ausbildung"
               value={this.state.ausbildungsende.format("YYYY-MM-DD")}
               onChange={this.onAusbildungsendeChanged.bind(this)}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <Label for="ausbildungssitz">Stadt des Ausbildungssitzes</Label>
+            <Input
+              type="text"
+              placeholder="Stadt des Ausbildungssitzes"
+              value={this.state.stadt}
+              onChange={this.onStadtChanged.bind(this)}
             />
           </FormGroup>
 
