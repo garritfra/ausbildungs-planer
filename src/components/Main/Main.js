@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import React from "react";
-import { Button, Icon } from "antd";
-import { Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
+import { Button, Input } from "antd";
+import { Form, FormFeedback, FormGroup, Label } from "reactstrap";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
 import DateUtil from "../../util/DateUtil";
@@ -183,33 +183,36 @@ export default class Main extends React.Component {
         <Form className="left">
           <FormGroup>
             <Label for="activities">Betriebliche Tätigkeiten</Label>
-            <Input
+            <Input.TextArea
               type="textarea"
               name="activities"
               id="activities"
               className="textField"
+              autosize
               onChange={this.onActivityChanged.bind(this)}
               value={this.state.activities}
             />
           </FormGroup>
           <FormGroup>
             <Label for="instructions">Schulungen</Label>
-            <Input
+            <Input.TextArea
               type="textarea"
               name="instructions"
               id="instructions"
               className="textField"
+              autosize
               onChange={this.onInstructionsChanged.bind(this)}
               value={this.state.instructions}
             />
           </FormGroup>
           <FormGroup>
             <Label for="school">Berufsschule</Label>
-            <Input
+            <Input.TextArea
               type="textarea"
               name="school"
               id="school"
               className="textField"
+              autosize
               onChange={this.onSchoolChanged.bind(this)}
               value={this.state.school}
             />
