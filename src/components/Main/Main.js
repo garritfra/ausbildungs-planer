@@ -176,8 +176,9 @@ export default class Main extends React.Component {
         const taetigkeiten = encodeURI(this.state.activities);
         const schulungen = encodeURI(this.state.instructions);
         const schule = encodeURI(this.state.school);
+        const stadt = encodeURI(data.stadt);
         this.setState({
-          downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}`
+          downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}&stadt=${stadt}`
         });
       });
   }
