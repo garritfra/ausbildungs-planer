@@ -1,6 +1,15 @@
 import firebase from "firebase";
 import React from "react";
-import { Button, Input, DatePicker, Row, Form } from "antd";
+import {
+  Button,
+  Input,
+  DatePicker,
+  InputNumber,
+  Form,
+  Col,
+  Row,
+  Tooltip
+} from "antd";
 import { FormFeedback, FormGroup, Label } from "reactstrap";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
@@ -120,8 +129,8 @@ export default class Main extends React.Component {
     this.setState({ school: event.target.value });
   }
 
-  onEntryIdChanged(event) {
-    const newId = event.target.value;
+  onEntryIdChanged(value) {
+    const newId = value;
     this.setState({ id: newId });
     this.fetchEntry(newId);
   }
@@ -180,59 +189,73 @@ export default class Main extends React.Component {
   render() {
     return (
       <div id="main">
-        <Form.Item label="Berichtsnummer">
-          <Input
-            type="number"
-            valid={this.state.isNewEntry}
-            onChange={this.onEntryIdChanged.bind(this)}
-            value={this.state.id || ""}
-          />
-          <FormFeedback valid={this.state.isNewEntry}>
-            Das ist ein neuer Bericht!
-          </FormFeedback>
-        </Form.Item>
-        <Form.Item label="Woche">
-          <DatePicker.RangePicker
-            label="Woche"
-            value={[this.state.dateStart, this.state.dateEnd]}
-          />
-        </Form.Item>
-        <FormGroup>
-          <Label for="activities">Betriebliche Tätigkeiten</Label>
-          <Input.TextArea
-            type="textarea"
-            name="activities"
-            id="activities"
-            className="textField"
-            autosize
-            onChange={this.onActivityChanged.bind(this)}
-            value={this.state.activities}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="instructions">Schulungen</Label>
-          <Input.TextArea
-            type="textarea"
-            name="instructions"
-            id="instructions"
-            className="textField"
-            autosize
-            onChange={this.onInstructionsChanged.bind(this)}
-            value={this.state.instructions}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="school">Berufsschule</Label>
-          <Input.TextArea
-            type="textarea"
-            name="school"
-            id="school"
-            className="textField"
-            autosize
-            onChange={this.onSchoolChanged.bind(this)}
-            value={this.state.school}
-          />
-        </FormGroup>
+        <Row>
+          <Col span={3}>
+            <Form.Item>Berichtsnummer</Form.Item>
+            <Form.Item>Woche</Form.Item>
+          </Col>
+          <Col span={5}>
+            <Form.Item>
+              <Tooltip
+                placement="right"
+                visible={this.state.isNewEntry}
+                title="Das ist ein neuer Bericht!"
+              >
+                <InputNumber
+                  valid={this.state.isNewEntry}
+                  onChange={this.onEntryIdChanged.bind(this)}
+                  min={1}
+                  value={this.state.id || ""}
+                />
+              </Tooltip>
+            </Form.Item>
+            <Form.Item>
+              <DatePicker.RangePicker
+                label="Woche"
+                format={this.datePattern}
+                value={[this.state.dateStart, this.state.dateEnd]}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <FormGroup>
+            <h4 for="activities">Betriebliche Tätigkeiten</h4>
+            <Input.TextArea
+              type="textarea"
+              name="activities"
+              id="activities"
+              className="textField"
+              autosize
+              onChange={this.onActivityChanged.bind(this)}
+              value={this.state.activities}
+            />
+          </FormGroup>
+          <FormGroup>
+            <h4 for="instructions">Schulungen</h4>
+            <Input.TextArea
+              type="textarea"
+              name="instructions"
+              id="instructions"
+              className="textField"
+              autosize
+              onChange={this.onInstructionsChanged.bind(this)}
+              value={this.state.instructions}
+            />
+          </FormGroup>
+          <FormGroup>
+            <h4 for="school">Berufsschule</h4>
+            <Input.TextArea
+              type="textarea"
+              name="school"
+              id="school"
+              className="textField"
+              autosize
+              onChange={this.onSchoolChanged.bind(this)}
+              value={this.state.school}
+            />
+          </FormGroup>
+        </Row>
         <FormGroup>
           <Button
             loading={this.state.submitButtonDisabled}
