@@ -10,7 +10,6 @@ import {
   Row,
   Tooltip
 } from "antd";
-import { FormFeedback, FormGroup, Label } from "reactstrap";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
 import DateUtil from "../../util/DateUtil";
@@ -219,7 +218,7 @@ export default class Main extends React.Component {
           </Col>
         </Row>
         <Row>
-          <FormGroup>
+          <Form.Item>
             <h4 for="activities">Betriebliche Tätigkeiten</h4>
             <Input.TextArea
               type="textarea"
@@ -230,8 +229,8 @@ export default class Main extends React.Component {
               onChange={this.onActivityChanged.bind(this)}
               value={this.state.activities}
             />
-          </FormGroup>
-          <FormGroup>
+          </Form.Item>
+          <Form.Item>
             <h4 for="instructions">Schulungen</h4>
             <Input.TextArea
               type="textarea"
@@ -242,8 +241,8 @@ export default class Main extends React.Component {
               onChange={this.onInstructionsChanged.bind(this)}
               value={this.state.instructions}
             />
-          </FormGroup>
-          <FormGroup>
+          </Form.Item>
+          <Form.Item>
             <h4 for="school">Berufsschule</h4>
             <Input.TextArea
               type="textarea"
@@ -254,25 +253,23 @@ export default class Main extends React.Component {
               onChange={this.onSchoolChanged.bind(this)}
               value={this.state.school}
             />
-          </FormGroup>
+          </Form.Item>
         </Row>
-        <FormGroup>
-          <Button
-            loading={this.state.submitButtonDisabled}
-            type="primary"
-            onClick={this.onSubmit.bind(this)}
-          >
-            Submit
-          </Button>
-          <Button
-            className="ml-1"
-            type="info"
-            icon="download"
-            href={this.state.downloadUrl}
-          >
-            Download als Docx
-          </Button>
-        </FormGroup>
+        <Button
+          loading={this.state.submitButtonDisabled}
+          type="primary"
+          onClick={this.onSubmit.bind(this)}
+        >
+          Submit
+        </Button>
+        <Button
+          className="ml-1"
+          type="info"
+          icon="download"
+          href={this.state.downloadUrl}
+        >
+          Download als Docx
+        </Button>
 
         <SubmitSuccessModal
           toggle={this.toggleSuccessModal.bind(this)}
