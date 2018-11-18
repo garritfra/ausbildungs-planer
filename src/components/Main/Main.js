@@ -8,7 +8,8 @@ import {
   Form,
   Col,
   Row,
-  Tooltip
+  Tooltip,
+  Alert
 } from "antd";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Main.scss";
@@ -188,6 +189,12 @@ export default class Main extends React.Component {
   render() {
     return (
       <div id="main">
+        {this.state.currentUser == undefined ? (
+          <Alert
+            message="Melde dich an, um Berichte zu schreiben und zu speichern. Ich arbeite daran, den Download von Berichten auch ohne Account zu ermöglichen! :)"
+            type="error"
+          />
+        ) : null}
         <Row>
           <Col span={3}>
             <Form.Item>Berichtsnummer</Form.Item>
@@ -197,7 +204,9 @@ export default class Main extends React.Component {
             <Form.Item>
               <Tooltip
                 placement="right"
-                visible={this.state.isNewEntry}
+                visible={
+                  this.state.isNewEntry && this.state.currentUser != undefined
+                }
                 title="Das ist ein neuer Bericht!"
               >
                 <InputNumber
