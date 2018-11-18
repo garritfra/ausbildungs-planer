@@ -271,14 +271,16 @@ export default class Main extends React.Component {
         >
           Submit
         </Button>
-        <Button
-          className="ml-1"
-          type="info"
-          icon="download"
-          href={this.state.downloadUrl}
-        >
-          Download als Docx
-        </Button>
+        <Tooltip title="Falls nichts passiert, überprüfe bitte deine Daten deines Profils">
+          <Button
+            className="ml-1"
+            type="info"
+            icon="download"
+            href={this.state.downloadUrl}
+          >
+            Download als Docx
+          </Button>
+        </Tooltip>
 
         <SubmitSuccessModal
           toggle={this.toggleSuccessModal.bind(this)}
