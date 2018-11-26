@@ -135,14 +135,8 @@ export default class Main extends React.Component {
     this.fetchEntry(newId);
   }
 
-  onDateStartChanged(event) {
-    this.setState({
-      dateStart: moment(event.target.value, ["YYYY-MM-DD"])
-    });
-  }
-
-  onDateEndChanged(event) {
-    this.setState({ dateEnd: moment(event.target.value, ["YYYY-MM-DD"]) });
+  onDateRangeChanged(dates) {
+    this.setState({ dateStart: dates[0], dateEnd: dates[1] });
   }
 
   onNoEntryFound() {
@@ -222,6 +216,7 @@ export default class Main extends React.Component {
                 label="Woche"
                 format={this.datePattern}
                 value={[this.state.dateStart, this.state.dateEnd]}
+                onChange={this.onDateRangeChanged.bind(this)}
               />
             </Form.Item>
           </Col>
