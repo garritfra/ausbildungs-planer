@@ -19,6 +19,10 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
   doc.loadZip(zip);
 
   const today = new Date();
+
+  // Month starts at 0, so 1 must be added
+  today.setMonth(today.getMonth() + 1);
+
   const todayStr =
     today.getDate().toString() +
     "." +
@@ -43,6 +47,8 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
     datum_heute: req.query.datum_heute || todayStr,
     stadt: req.query.stadt || "Braunschweig"
   });
+
+  console.log(todayStr);
 
   try {
     // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
