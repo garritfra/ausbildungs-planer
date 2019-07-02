@@ -8,7 +8,7 @@ import App from "../src/components/App";
 require("dotenv").load();
 
 // Initialize Firebase
-const firebaseConfig = {
+const config = {
   apiKey: "AIzaSyBvYP_HXbReuOgYcd7j9ojMwvClIlrh4F4",
   authDomain: "ausbildungs-planer.firebaseapp.com",
   databaseURL: "https://ausbildungs-planer.firebaseio.com",
