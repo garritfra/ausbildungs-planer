@@ -17,5 +17,6 @@ const config = {
   messagingSenderId: "864868139007"
 };
 firebase.initializeApp(config);
+let perf = firebase.performance()
 
 ReactDOM.render(<App />, document.querySelector("#root"));
