@@ -41,7 +41,7 @@ export default class Header extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/login">
+                <NavLink href={this.state.isLoggedIn ? "/profile" : "/login"}>
                   {this.state.isLoggedIn
                     ? this.state.user.displayName
                     : "Login"}

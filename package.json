@@ -1,16 +1,14 @@
 {
   "name": "ausbildungs-planer",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "parcel public/index.html",
     "build": "parcel build public/index.html",
-    "deploy:patch": "npm run deploy && npm version patch",
-    "deploy:minor": "npm run deploy && npm version minor",
-    "deploy:major": "npm run deploy && npm version major",
     "deploy": "npm install && npm run build && firebase deploy --only hosting",
-    "test": "echo \"Error: no test specified\""
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -23,19 +21,27 @@
   },
   "homepage": "https://github.com/garritfra/ausbildungs-planer#readme",
   "dependencies": {
-    "bootstrap": "^4.1.3",
-    "dotenv": "^6.1.0",
-    "firebase": "^5.5.4",
-    "jquery": "^3.3.1",
-    "popper.js": "^1.14.4",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "antd": "^3.20.0",
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^4.3.1",
+    "dotenv": "^6.2.0",
+    "firebase": "^5.11.1",
+    "jest": "^23.6.0",
+    "jquery": "^3.4.1",
+    "moment": "^2.24.0",
+    "popper.js": "^1.15.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-firebaseui": "^3.1.2",
     "react-router-dom": "^4.3.1",
     "reactstrap": "^6.5.0"
   },
   "devDependencies": {
-    "node-sass": "^4.9.0",
-    "parcel": "^1.8.1"
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "node-sass": "^4.12.0",
+    "parcel": "^1.12.3"
   }
 }
