@@ -9,7 +9,7 @@ require("dotenv").load();
 
 // Initialize Firebase
 const config = {
-  apiKey: "AIzaSyBvYP_HXbReuOgYcd7j9ojMwvClIlrh4F4",
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: "ausbildungs-planer.firebaseapp.com",
   databaseURL: "https://ausbildungs-planer.firebaseio.com",
   projectId: "ausbildungs-planer",
