@@ -65,7 +65,13 @@ exports.exportToDocxViaApp = functions.https.onCall((data, context) => {
   }
 
   var buf = doc.getZip().generate({ type: "nodebuffer" });
-  var documentName = "AusbNachweis_" + data.nachweisnr + ".docx";
+  var documentName =
+    "AusbNachweis_" +
+    data.name.replace(" ", "") +
+    "_" +
+    data.nachweisnr +
+    ".docx";
+
   let outfile = tmp.fileSync();
   // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
   fs.writeFileSync(path.resolve(outfile.name), buf);
