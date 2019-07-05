@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase, { functions } from "firebase";
 import React from "react";
 import {
   Button,
@@ -180,6 +180,48 @@ export default class Main extends React.Component {
       });
   }
 
+  downloadDoc() {
+    this.userRef
+      .get()
+      .then(snapshot => snapshot.data())
+      .then(data => {
+        functions()
+          .httpsCallable("exportToDocxViaApp")({
+            name: data.name,
+            betrieb: data.betrieb,
+            ausbilder: data.ausbilder,
+            abteilung: data.abteilung,
+            projekt: data.projekt,
+            bericht_von: this.state.dateStart.format(this.datePattern),
+            bericht_bis: this.state.dateEnd.format(this.datePattern),
+            nachweisnr: this.state.id,
+            kalenderwoche: DateUtil.getCalendarWeek(this.state.dateStart),
+            ausbildungs_jahr: DateUtil.getCurrentYearAfterDate(
+              data.ausbildungsanfang,
+              this.state.dateStart
+            ),
+            taetigkeiten: this.state.activities,
+            schulungen: this.state.instructions,
+            schule: this.state.school,
+            stadt: data.stadt
+          })
+          .then(data => {
+            return data.data;
+          })
+          .then(fileName => {
+            console.log(fileName);
+            return firebase
+              .storage()
+              .ref(fileName)
+              .getDownloadURL();
+          })
+          .then(downloadURL => {
+            console.log(downloadURL);
+            window.location.replace(downloadURL);
+          });
+      });
+  }
+
   render() {
     return (
       <div id="main">
@@ -271,7 +313,7 @@ export default class Main extends React.Component {
             className="ml-1"
             type="info"
             icon="download"
-            href={this.state.downloadUrl}
+            onClick={this.downloadDoc.bind(this)}
           >
             Download als Docx
           </Button>

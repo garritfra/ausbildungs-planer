@@ -1,10 +1,15 @@
 const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 var JSZip = require("jszip");
 var Docxtemplater = require("docxtemplater");
 var tmp = require("tmp");
 
 var fs = require("fs");
 var path = require("path");
+
+admin.initializeApp();
+
+const bucket = admin.storage().bucket();
 
 exports.exportToDocxViaApp = functions.https.onCall((data, context) => {
   let content = fs.readFileSync(
@@ -65,7 +70,12 @@ exports.exportToDocxViaApp = functions.https.onCall((data, context) => {
   // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
   fs.writeFileSync(path.resolve(outfile.name), buf);
   console.log(outfile);
-  res.download(path.resolve(outfile.name), documentName);
+
+  let localPath = path.resolve(outfile.name);
+
+  return bucket
+    .upload(localPath, { destination: documentName })
+    .then(file => file[0].name);
 });
 
 exports.exportToDocx = functions.https.onRequest((req, res) => {
