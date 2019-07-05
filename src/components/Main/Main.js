@@ -32,8 +32,7 @@ export default class Main extends React.Component {
       successModalVisible: false,
       isNewEntry: true,
       submitButtonDisabled: false,
-      currentUser: undefined,
-      downloadUrl: undefined
+      currentUser: undefined
     };
   }
 
@@ -108,9 +107,6 @@ export default class Main extends React.Component {
         });
         this.enableSubmitButton();
       })
-      .then(() => {
-        this.setDownloadUrl();
-      })
       .catch(err => {
         this.onNoEntryFound();
         this.enableSubmitButton();
@@ -152,41 +148,13 @@ export default class Main extends React.Component {
     this.setState({ successModalVisible: !this.state.successModalVisible });
   }
 
-  setDownloadUrl() {
-    this.userRef
-      .get()
-      .then(snapshot => snapshot.data())
-      .then(data => {
-        const name = encodeURI(data.name);
-        const betrieb = encodeURI(data.betrieb);
-        const ausbilder = encodeURI(data.ausbilder);
-        const abteilung = encodeURI(data.abteilung);
-        const projekt = encodeURI(data.projekt);
-        const bericht_von = this.state.dateStart.format(this.datePattern);
-        const bericht_bis = this.state.dateEnd.format(this.datePattern);
-        const nachweisnr = this.state.id;
-        const kalenderwoche = DateUtil.getCalendarWeek(bericht_von);
-        const ausbildungs_jahr = DateUtil.getCurrentYearAfterDate(
-          data.ausbildungsanfang,
-          bericht_von
-        );
-        const taetigkeiten = encodeURI(this.state.activities);
-        const schulungen = encodeURI(this.state.instructions);
-        const schule = encodeURI(this.state.school);
-        const stadt = encodeURI(data.stadt);
-        this.setState({
-          downloadUrl: `https://us-central1-ausbildungs-planer.cloudfunctions.net/exportToDocx?name=${name}&betrieb=${betrieb}&ausbilder=${ausbilder}&abteilung=${abteilung}&projekt=${projekt}&bericht_von=${bericht_von}&bericht_bis=${bericht_bis}&nachweisnr=${nachweisnr}&kalenderwoche=${kalenderwoche}&ausbildungs_jahr=${ausbildungs_jahr}&taetigkeiten=${taetigkeiten}&schulungen=${schulungen}&schule=${schule}&stadt=${stadt}`
-        });
-      });
-  }
-
   downloadDoc() {
     this.userRef
       .get()
       .then(snapshot => snapshot.data())
       .then(data => {
         functions()
-          .httpsCallable("exportToDocxViaApp")({
+          .httpsCallable("exportToDocx")({
             name: data.name,
             betrieb: data.betrieb,
             ausbilder: data.ausbilder,
