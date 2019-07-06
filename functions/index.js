@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-//admin.initializeApp();
+admin.initializeApp();
 
 exports.exportToDocx = require("./exportToDocx");
 exports.addTimesheet = require("./addTimesheet");
