@@ -1,5 +1,8 @@
 const admin = require("firebase-admin");
-admin.initializeApp();
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  storageBucket: "ausbildungs-planer.appspot.com"
+});
 
 exports.exportToDocx = require("./exportToDocx");
 exports.addTimesheet = require("./addTimesheet");
