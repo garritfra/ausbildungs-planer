@@ -1,4 +1,5 @@
 const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 var JSZip = require("jszip");
 var Docxtemplater = require("docxtemplater");
 var tmp = require("tmp");
@@ -6,7 +7,11 @@ var tmp = require("tmp");
 var fs = require("fs");
 var path = require("path");
 
-exports.exportToDocx = functions.https.onRequest((req, res) => {
+admin.initializeApp();
+
+const bucket = admin.storage().bucket();
+
+exports.exportToDocx = functions.https.onCall((data, context) => {
   let content = fs.readFileSync(
     path.resolve(__dirname, "AusbNachweis_TEMPLATE.docx"),
     "binary"
@@ -27,21 +32,21 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
     today.getFullYear().toString();
 
   doc.setData({
-    name: req.query.name,
-    betrieb: req.query.betrieb,
-    ausbilder: req.query.ausbilder,
-    abteilung: req.query.abteilung,
-    projekt: req.query.projekt,
-    bericht_von: req.query.bericht_von,
-    bericht_bis: req.query.bericht_bis,
-    nachweisnr: req.query.nachweisnr,
-    kalenderwoche: req.query.kalenderwoche,
-    ausbildungs_jahr: req.query.ausbildungs_jahr,
-    taetigkeiten: req.query.taetigkeiten,
-    schulungen: req.query.schulungen,
-    schule: req.query.schule,
-    datum_heute: req.query.datum_heute || todayStr,
-    stadt: req.query.stadt || "Braunschweig"
+    name: data.name,
+    betrieb: data.betrieb,
+    ausbilder: data.ausbilder,
+    abteilung: data.abteilung,
+    projekt: data.projekt,
+    bericht_von: data.bericht_von,
+    bericht_bis: data.bericht_bis,
+    nachweisnr: data.nachweisnr,
+    kalenderwoche: data.kalenderwoche,
+    ausbildungs_jahr: data.ausbildungs_jahr,
+    taetigkeiten: data.taetigkeiten,
+    schulungen: data.schulungen,
+    schule: data.schule,
+    datum_heute: data.datum_heute || todayStr,
+    stadt: data.stadt || "Braunschweig"
   });
 
   try {
@@ -60,10 +65,21 @@ exports.exportToDocx = functions.https.onRequest((req, res) => {
   }
 
   var buf = doc.getZip().generate({ type: "nodebuffer" });
-  var documentName = "AusbNachweis_" + req.query.nachweisnr + ".docx";
+  var documentName =
+    "AusbNachweis_" +
+    data.name.replace(" ", "") +
+    "_" +
+    data.nachweisnr +
+    ".docx";
+
   let outfile = tmp.fileSync();
   // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
   fs.writeFileSync(path.resolve(outfile.name), buf);
   console.log(outfile);
-  res.download(path.resolve(outfile.name), documentName);
+
+  let localPath = path.resolve(outfile.name);
+
+  return bucket
+    .upload(localPath, { destination: documentName })
+    .then(file => file[0].name);
 });

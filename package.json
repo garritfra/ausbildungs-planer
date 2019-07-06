@@ -6,7 +6,7 @@
   "scripts": {
     "start": "parcel public/index.html",
     "build": "parcel build public/index.html",
-    "deploy": "npm install && npm run build && firebase deploy --only hosting",
+    "deploy": "npm install && npm run build && firebase deploy",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
@@ -28,6 +28,7 @@
     "bootstrap": "^4.3.1",
     "dotenv": "^6.2.0",
     "firebase": "^5.11.1",
+    "firebase-functions": "^3.0.2",
     "jest": "^23.6.0",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
