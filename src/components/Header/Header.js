@@ -10,6 +10,7 @@ import {
   NavLink
 } from "reactstrap";
 import "./Header.scss";
+import FeatureManager from "../../util/FeatureManager";
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -18,13 +19,18 @@ export default class Header extends React.Component {
     this.state = {
       isOpen: false,
       user: undefined,
-      isLoggedIn: false
+      isLoggedIn: false,
+      timesheetsEnabled: false
     };
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ user: user, isLoggedIn: !!user });
+    });
+
+    FeatureManager.instance.timesheetsEnabled.subscribe({
+      next: v => this.setState({ timesheetsEnabled: v })
     });
   }
 
@@ -40,6 +46,16 @@ export default class Header extends React.Component {
           <NavbarToggler onClick={this.toggleHamburger.bind(this)} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
+              {this.state.timesheetsEnabled && (
+                <NavItem hidden={!this.state.isLoggedIn}>
+                  <NavLink href="/berichte">Berichtshefte</NavLink>
+                </NavItem>
+              )}
+              {this.state.timesheetsEnabled && (
+                <NavItem hidden={!this.state.isLoggedIn}>
+                  <NavLink href="/timesheets">Timesheets</NavLink>
+                </NavItem>
+              )}
               <NavItem>
                 <NavLink href={this.state.isLoggedIn ? "/profile" : "/login"}>
                   {this.state.isLoggedIn

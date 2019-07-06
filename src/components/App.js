@@ -29,6 +29,7 @@ export default class App extends Component {
         <div className="app">
           <Header />
           <Route exact path="/" component={Main} />
+          <Route exact path="/berichte" component={Main} />
           {this.state.timesheetsEnabled && (
             <Route path="/timesheets" render={() => <h1>Timesheets</h1>} />
           )}
