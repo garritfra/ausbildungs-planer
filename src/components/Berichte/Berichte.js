@@ -12,11 +12,11 @@ import {
   Alert
 } from "antd";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
-import "./Main.scss";
+import "./Berichte.scss";
 import DateUtil from "../../util/DateUtil";
 import moment from "moment";
 
-export default class Main extends React.Component {
+export default class Berichte extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
