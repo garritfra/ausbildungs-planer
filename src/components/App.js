@@ -6,6 +6,7 @@ import Login from "./Login/Login";
 import Berichte from "./Berichte/Berichte";
 import Profile from "./Profile/Profile";
 import FeatureManager from "../util/FeatureManager";
+import Timesheets from "./Timesheets/Timesheets";
 
 export default class App extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ export default class App extends Component {
           <Route exact path="/" component={Berichte} />
           <Route exact path="/berichte" component={Berichte} />
           {this.state.timesheetsEnabled && (
-            <Route path="/timesheets" render={() => <h1>Timesheets</h1>} />
+            <Route path="/timesheets" component={Timesheets} />
           )}
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
