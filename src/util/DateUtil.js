@@ -22,4 +22,12 @@ export default class DateUtil {
     );
     return Math.ceil(duration.asYears());
   }
+
+  /**
+   * Converts a yyyy-mm-dd date into dd.mm.yyyy
+   * @param {string} old date in format "yyyy-mm-dd"
+   */
+  static correctFormat(old) {
+    return moment(old, ["yyyy-MM-dd"]).format("dd.mm.yyyy");
+  }
 }
