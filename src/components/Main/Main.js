@@ -68,6 +68,9 @@ export default class Main extends React.Component {
   }
 
   onSubmit() {
+    let submitEntryTrace = firebase.performance().trace("submitEntry");
+    submitEntryTrace.start();
+
     this.disableSubmitButton();
     const newBericht = {
       id: this.state.id,
@@ -84,6 +87,7 @@ export default class Main extends React.Component {
         this.toggleSuccessModal();
         this.enableSubmitButton();
         this.fetchEntry(this.state.id.toString());
+        submitEntryTrace.stop();
       })
       .catch(err => {
         this.enableSubmitButton();
@@ -91,6 +95,8 @@ export default class Main extends React.Component {
   }
 
   fetchEntry(id) {
+    const fetchEntryTrace = firebase.performance().trace("fetchEntry");
+    fetchEntryTrace.start();
     this.disableSubmitButton();
     this.entriesRef
       .doc(id.toString())
@@ -106,6 +112,7 @@ export default class Main extends React.Component {
           isNewEntry: false
         });
         this.enableSubmitButton();
+        fetchEntryTrace.stop();
       })
       .catch(err => {
         this.onNoEntryFound();
