@@ -6,17 +6,17 @@ import {
   DatePicker,
   InputNumber,
   Form,
-  Col,
-  Row,
   Tooltip,
   Alert
 } from "antd";
+
+import { Col, Row } from "reactstrap";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
-import "./Main.scss";
+import "./Berichte.scss";
 import DateUtil from "../../util/DateUtil";
 import moment from "moment";
 
-export default class Main extends React.Component {
+export default class Berichte extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
@@ -207,12 +207,9 @@ export default class Main extends React.Component {
           />
         ) : null}
         <Row>
-          <Col span={3}>
-            <Form.Item>Berichtsnummer</Form.Item>
-            <Form.Item>Woche</Form.Item>
-          </Col>
-          <Col span={5}>
+          <Col>
             <Form.Item>
+              <p>Berichtsnummer</p>
               <Tooltip
                 placement="right"
                 visible={
@@ -229,6 +226,7 @@ export default class Main extends React.Component {
               </Tooltip>
             </Form.Item>
             <Form.Item>
+              <p>Woche</p>
               <DatePicker.RangePicker
                 label="Woche"
                 format={this.datePattern}
@@ -239,42 +237,48 @@ export default class Main extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Form.Item>
-            <h4 for="activities">Betriebliche Tätigkeiten</h4>
-            <Input.TextArea
-              type="textarea"
-              name="activities"
-              id="activities"
-              className="textField"
-              autosize
-              onChange={this.onActivityChanged.bind(this)}
-              value={this.state.activities}
-            />
-          </Form.Item>
-          <Form.Item>
-            <h4 for="instructions">Schulungen</h4>
-            <Input.TextArea
-              type="textarea"
-              name="instructions"
-              id="instructions"
-              className="textField"
-              autosize
-              onChange={this.onInstructionsChanged.bind(this)}
-              value={this.state.instructions}
-            />
-          </Form.Item>
-          <Form.Item>
-            <h4 for="school">Berufsschule</h4>
-            <Input.TextArea
-              type="textarea"
-              name="school"
-              id="school"
-              className="textField"
-              autosize
-              onChange={this.onSchoolChanged.bind(this)}
-              value={this.state.school}
-            />
-          </Form.Item>
+          <Col xl>
+            <Form.Item>
+              <h4 for="activities">Betriebliche Tätigkeiten</h4>
+              <Input.TextArea
+                type="textarea"
+                name="activities"
+                id="activities"
+                className="textField"
+                autosize
+                onChange={this.onActivityChanged.bind(this)}
+                value={this.state.activities}
+              />
+            </Form.Item>
+          </Col>
+          <Col xl>
+            <Form.Item>
+              <h4 for="instructions">Schulungen</h4>
+              <Input.TextArea
+                type="textarea"
+                name="instructions"
+                id="instructions"
+                className="textField"
+                autosize
+                onChange={this.onInstructionsChanged.bind(this)}
+                value={this.state.instructions}
+              />
+            </Form.Item>
+          </Col>
+          <Col xl>
+            <Form.Item>
+              <h4 for="school">Berufsschule</h4>
+              <Input.TextArea
+                type="textarea"
+                name="school"
+                id="school"
+                className="textField"
+                autosize
+                onChange={this.onSchoolChanged.bind(this)}
+                value={this.state.school}
+              />
+            </Form.Item>
+          </Col>
         </Row>
         <Button
           loading={this.state.submitButtonDisabled}
