@@ -38,13 +38,14 @@ export default () => {
   ));
 
   return (
-    <Table>
+    <Table bordered size="sm">
       <thead>
         <tr>
+          <th>Edit</th>
           <th>Datum</th>
           <th>Anfang</th>
           <th>Ende</th>
-          <th>Pause in Minuten</th>
+          <th>Pause</th>
           <th>Bemerkungen</th>
         </tr>
       </thead>
