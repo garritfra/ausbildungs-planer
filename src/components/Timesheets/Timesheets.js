@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "reactstrap";
+import { Table, Button } from "reactstrap";
 import TimesheetEntry from "./TimesheetEntry";
 import firebase from "firebase";
 
@@ -38,18 +38,23 @@ export default () => {
   ));
 
   return (
-    <Table bordered size="sm">
-      <thead>
-        <tr>
-          <th>Edit</th>
-          <th>Datum</th>
-          <th>Anfang</th>
-          <th>Ende</th>
-          <th>Pause</th>
-          <th>Bemerkungen</th>
-        </tr>
-      </thead>
-      <tbody>{timesheetsComponents}</tbody>
-    </Table>
+    <div>
+      <Button color="primary" style={{ margin: "1em" }}>
+        Neuer Eintrag
+      </Button>
+      <Table bordered size="sm">
+        <thead>
+          <tr>
+            <th>Edit</th>
+            <th>Datum</th>
+            <th>Anfang</th>
+            <th>Ende</th>
+            <th>Pause</th>
+            <th>Bemerkungen</th>
+          </tr>
+        </thead>
+        <tbody>{timesheetsComponents}</tbody>
+      </Table>
+    </div>
   );
 };
