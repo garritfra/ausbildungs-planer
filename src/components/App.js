@@ -15,11 +15,12 @@ export default class App extends Component {
     this.state = {
       timesheetsEnabled: false
     };
+  }
 
+  componentDidMount() {
     FeatureManager.instance.timesheetsEnabled.subscribe({
       next: v => {
         this.setState({ timesheetsEnabled: v });
-        console.log("Timesheets enabled: " + v);
       }
     });
   }

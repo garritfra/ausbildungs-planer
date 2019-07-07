@@ -20,6 +20,9 @@
     "url": "https://github.com/garritfra/ausbildungs-planer/issues"
   },
   "homepage": "https://github.com/garritfra/ausbildungs-planer#readme",
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
   "dependencies": {
     "antd": "^3.20.0",
     "babel-jest": "^23.6.0",
