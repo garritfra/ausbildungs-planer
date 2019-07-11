@@ -1,4 +1,4 @@
-import firebase, { functions } from "firebase";
+import firebase, { functions, app } from "firebase";
 import React from "react";
 import {
   Button,
@@ -160,7 +160,8 @@ export default class Berichte extends React.Component {
       .get()
       .then(snapshot => snapshot.data())
       .then(data => {
-        functions("europe-west1")
+        app()
+          .functions("europe-west1")
           .httpsCallable("exportToDocx")({
             name: data.name,
             betrieb: data.betrieb,

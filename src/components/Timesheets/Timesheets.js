@@ -59,6 +59,7 @@ export default () => {
 
   const submitEntry = async () => {
     let result = await firebase
+      .app()
       .functions("europe-west1")
       .httpsCallable("addTimesheet")({
       date: newTimesheet.date.format("DD.MM.YYYY"),
