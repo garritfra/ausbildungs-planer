@@ -160,7 +160,7 @@ export default class Berichte extends React.Component {
       .get()
       .then(snapshot => snapshot.data())
       .then(data => {
-        functions()
+        functions("europe-west1")
           .httpsCallable("exportToDocx")({
             name: data.name,
             betrieb: data.betrieb,
