@@ -6,7 +6,8 @@
   "scripts": {
     "start": "parcel public/index.html",
     "build": "parcel build public/index.html",
-    "deploy": "npm install && npm run build && firebase deploy",
+    "deploy:dev": "npm install && npm run build && firebase use dev && firebase deploy",
+    "deploy:prod": "npm install && FIREBASE_STAGE=production npm run build && firebase use default && firebase deploy",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
@@ -32,7 +33,7 @@
     "dotenv": "^6.2.0",
     "firebase": "^6.2.4",
     "firebase-admin": "^8.2.0",
-    "firebase-functions": "^3.0.2",
+    "firebase-functions": "^3.1.0",
     "jest": "^23.6.0",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
