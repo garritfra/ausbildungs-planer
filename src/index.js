@@ -19,7 +19,7 @@ const prodConfig = {
 };
 
 const devConfig = {
-  apiKey: process.env.FIREBASE_TOKEN,
+  apiKey: process.env.FIREBASE_DEV_TOKEN,
   authDomain: "ausbildungs-planer-dev.firebaseapp.com",
   databaseURL: "https://ausbildungs-planer-dev.firebaseio.com",
   projectId: "ausbildungs-planer-dev",

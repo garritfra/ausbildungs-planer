@@ -15,6 +15,7 @@ import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import "./Berichte.scss";
 import DateUtil from "../../util/DateUtil";
 import moment from "moment";
+import CacheProvider from "../../util/CacheProvider";
 
 export default class Berichte extends React.Component {
   constructor(props) {
@@ -38,16 +39,25 @@ export default class Berichte extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
-      this.initializeFirebaseRefs();
+      if (user != undefined) {
+        console.log("User: " + user);
+        this.setState({ currentUser: user });
+        this.initializeFirebaseRefs();
 
-      this.entriesRef
-        .orderBy("id", "desc")
-        .limit(1)
-        .get()
-        .then(entry => entry.docs[0].data())
-        .then(data => this.setState({ id: data.id }))
-        .then(() => this.fetchEntry(this.state.id));
+        let fetch = async () => {
+          let cachedId = await CacheProvider.instance.get("last_bericht_id");
+
+          console.log("fetching cached id " + cachedId);
+
+          let document = await this.entriesRef.doc(String(cachedId)).get();
+          let data = await document.data();
+          console.log(data);
+          this.setState({ id: data.id });
+          this.fetchEntry(data.id);
+        };
+
+        fetch();
+      }
     });
   }
 
@@ -133,9 +143,11 @@ export default class Berichte extends React.Component {
   }
 
   onEntryIdChanged(value) {
+    console.log(value);
     const newId = value;
     this.setState({ id: newId });
     this.fetchEntry(newId);
+    CacheProvider.instance.set("last_bericht_id", value);
   }
 
   onDateRangeChanged(dates) {
