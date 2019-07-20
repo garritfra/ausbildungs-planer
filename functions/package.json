@@ -17,6 +17,7 @@
     "firebase-functions": "^3.0.2",
     "jszip": "^2.6.1",
     "jszip-utils": "0.0.2",
+    "moment": "^2.24.0",
     "tmp": "0.0.33"
   },
   "private": true
