@@ -1,7 +1,7 @@
 workflow "Deploy Flow" {
   on = "push"
   resolves = [
-    "Deploy",
+    "deploy",
   ]
 }
 
@@ -20,11 +20,24 @@ action "build" {
   uses = "actions/npm@4633da3702a5366129dca9d8cc3191476fc3433c"
   needs = ["install"]
   args = "run build"
+  env = {
+    FIREBASE_STAGE = "production"
+  }
 }
 
-action "Deploy" {
+action "deploy" {
+  uses = "w9jds/firebase-action@7d6b2b058813e1224cdd4db255b2f163ae4084d3"
+  needs = ["use default"]
+  args = "deploy"
+  secrets = ["FIREBASE_TOKEN"]
+  env = {
+    FIREBASE_STAGE = "production"
+  }
+}
+
+action "use default" {
   uses = "w9jds/firebase-action@7d6b2b058813e1224cdd4db255b2f163ae4084d3"
   needs = ["build"]
-  args = "deploy"
+  args = "use default"
   secrets = ["FIREBASE_TOKEN"]
 }
