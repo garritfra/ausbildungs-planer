@@ -133,7 +133,7 @@ export default () => {
                 onChange={event => {
                   setNewTimesheet({
                     ...newTimesheet,
-                    breakMinutes: event.target.value
+                    breakMinutes: Number(event.target.value)
                   });
                   console.log(newTimesheet);
                 }}
