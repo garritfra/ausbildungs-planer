@@ -26,5 +26,5 @@ action "Deploy" {
   uses = "w9jds/firebase-action@7d6b2b058813e1224cdd4db255b2f163ae4084d3"
   needs = ["build"]
   args = "deploy"
-  secrets = ["FIREBASE_API_KEY"]
+  secrets = ["FIREBASE_TOKEN"]
 }
