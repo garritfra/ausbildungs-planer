@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "ausbildungs-planer"
+    "default": "ausbildungs-planer",
+    "dev": "ausbildungs-planer-dev"
   }
 }
