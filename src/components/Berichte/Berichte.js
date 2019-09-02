@@ -172,7 +172,9 @@ export default class Berichte extends React.Component {
       .get()
       .then(snapshot => snapshot.data())
       .then(data => {
-        functions()
+        firebase
+          .app()
+          .functions("us-central1")
           .httpsCallable("exportToDocx")({
             name: data.name,
             betrieb: data.betrieb,
