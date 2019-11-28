@@ -14,6 +14,7 @@ if (process.env.FIREBASE_STAGE == "production") {
 }
 
 exports.exportToDocx = require("./exportToDocx");
+exports.exportAllToDocx = require("./exportAllToDocx");
 exports.addTimesheet = require("./addTimesheet");
 exports.sanitizeBreakMinutes = require("./sanitizeBreakMinutes");
 exports.updateTimeBalance = require("./updateTimeBalance");
