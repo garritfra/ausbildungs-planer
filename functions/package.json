@@ -12,12 +12,14 @@
     "node": "8"
   },
   "dependencies": {
-    "docxtemplater": "^3.13.2",
-    "firebase-admin": "^8.2.0",
-    "firebase-functions": "^3.0.2",
+    "docxtemplater": "^3.15.0",
+    "firebase-admin": "^8.8.0",
+    "firebase-functions": "^3.3.0",
     "jszip": "^2.6.1",
     "jszip-utils": "0.0.2",
-    "tmp": "0.0.33"
+    "moment": "^2.24.0",
+    "tmp": "0.0.33",
+    "zip-folder": "^1.0.0"
   },
   "private": true
 }

@@ -60,7 +60,7 @@ export default () => {
   const submitEntry = async () => {
     let result = await firebase
       .app()
-      .functions("europe-west1")
+      .functions("us-central1")
       .httpsCallable("addTimesheet")({
       date: newTimesheet.date.format("DD.MM.YYYY"),
       start: newTimesheet.start.format("HH:mm"),
@@ -136,7 +136,7 @@ export default () => {
                 onChange={event => {
                   setNewTimesheet({
                     ...newTimesheet,
-                    breakMinutes: event.target.value
+                    breakMinutes: Number(event.target.value)
                   });
                   console.log(newTimesheet);
                 }}
