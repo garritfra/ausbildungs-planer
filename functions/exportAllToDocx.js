@@ -14,79 +14,83 @@ const bucket = admin.storage().bucket();
 /**
  * Data should contain user email
  */
-module.exports = functions.https.onRequest((req, res) => {
-  const dir = tmp.dirSync({ mode: "0777" });
+module.exports = functions
+  .runWith({ memory: "1GB", timeoutSeconds: 540 })
+  .https.onRequest((req, res) => {
+    res.header("Access-Control-Allow-Origin: *");
+    const dir = tmp.dirSync({ mode: "0777" });
 
-  const email = req.query.email;
+    const email = req.query.email;
 
-  if (!(typeof email == "string")) {
-    throw new Error(
-      `Passed Data is of type ${typeof email}, should be ${typeof ""}`
-    );
-  }
+    if (!(typeof email == "string")) {
+      throw new Error(
+        `Passed Data is of type ${typeof email}, should be ${typeof ""}`
+      );
+    }
 
-  const userData = admin
-    .firestore()
-    .collection("Users")
-    .doc(email)
-    .get();
+    const userData = admin
+      .firestore()
+      .collection("Users")
+      .doc(email)
+      .get();
 
-  const berichtData = admin
-    .firestore()
-    .collection("Users")
-    .doc(email)
-    .collection("Berichte")
-    .get()
-    .then(data => data.docs);
+    const berichtData = admin
+      .firestore()
+      .collection("Users")
+      .doc(email)
+      .collection("Berichte")
+      .get()
+      .then(data => data.docs);
 
-  const documentPaths = userData
-    .then(user => user.data())
-    .then(user => {
-      return berichtData.then(berichte => {
-        return berichte.map(berichtDoc => {
-          const bericht = berichtDoc.data();
-          const calendarWeek = moment(bericht.dateStart, [
-            "DD.MM.YYYY"
-          ]).weeks();
+    const documentPaths = userData
+      .then(user => user.data())
+      .then(user => {
+        return berichtData.then(berichte => {
+          return berichte.map(berichtDoc => {
+            const bericht = berichtDoc.data();
+            const calendarWeek = moment(bericht.dateStart, [
+              "DD.MM.YYYY"
+            ]).weeks();
 
-          const ausbildungsJahr = DateUtil.getCurrentYearAfterDate(
-            user.ausbildungsanfang,
-            moment().format("DD.MM.YYYY")
-          );
-          console.log(bericht);
+            const ausbildungsJahr = DateUtil.getCurrentYearAfterDate(
+              user.ausbildungsanfang,
+              moment().format("DD.MM.YYYY")
+            );
+            console.log(bericht);
 
-          return createFile(
-            {
-              name: user.name,
-              betrieb: user.betrieb,
-              ausbilder: user.ausbilder,
-              abteilung: user.abteilung,
-              projekt: user.projekt,
-              bericht_von: bericht.dateStart,
-              bericht_bis: bericht.dateEnd,
-              nachweisnr: berichtDoc.id,
-              kalenderwoche: calendarWeek,
-              ausbildungs_jahr: ausbildungsJahr,
-              taetigkeiten: bericht.activities,
-              schulungen: bericht.instructions,
-              schule: bericht.school,
-              datum_heute: bericht.datum_heute || moment().format("DD.MM.YYYY"),
-              stadt: user.stadt || "Braunschweig"
-            },
-            dir
-          );
+            return createFile(
+              {
+                name: user.name,
+                betrieb: user.betrieb,
+                ausbilder: user.ausbilder,
+                abteilung: user.abteilung,
+                projekt: user.projekt,
+                bericht_von: bericht.dateStart,
+                bericht_bis: bericht.dateEnd,
+                nachweisnr: berichtDoc.id,
+                kalenderwoche: calendarWeek,
+                ausbildungs_jahr: ausbildungsJahr,
+                taetigkeiten: bericht.activities,
+                schulungen: bericht.instructions,
+                schule: bericht.school,
+                datum_heute:
+                  bericht.datum_heute || moment().format("DD.MM.YYYY"),
+                stadt: user.stadt || "Braunschweig"
+              },
+              dir
+            );
+          });
         });
       });
-    });
 
-  documentPaths.then(paths => {
-    const dirPath = dir.name;
-    zipFolder(dirPath, path.join(dirPath, "berichte.zip"), err => {
-      if (err) res.send(err);
-      res.download(path.resolve(dirPath, "berichte.zip"));
+    documentPaths.then(paths => {
+      const dirPath = dir.name;
+      zipFolder(dirPath, path.join(dirPath, "berichte.zip"), err => {
+        if (err) res.send(err);
+        res.download(path.resolve(dirPath, "berichte.zip"));
+      });
     });
   });
-});
 
 /**
  *
