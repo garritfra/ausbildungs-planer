@@ -154,12 +154,21 @@ function createFile(data, dir) {
     data.nachweisnr +
     ".docx";
   let outfile = tmp.fileSync({
-    postfix: documentName,
     mode: "0777",
     dir: dir.name
   });
+
+  fs.renameSync(outfile.name, path.dirname(outfile.name) + documentName);
+  console.log(
+    "Renaming from",
+    outfile.name,
+    "to",
+    path.dirname(outfile.name) + documentName
+  );
   // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-  const file = fs.writeFileSync(outfile.name, buf, { mode: "0777" });
+  fs.writeFileSync(path.join(path.dirname(outfile.name), documentName), buf, {
+    mode: "0777"
+  });
   console.log(outfile);
 
   return path.resolve(outfile.name);
