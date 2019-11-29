@@ -7,6 +7,7 @@ var fs = require("fs");
 var path = require("path");
 const DateUtil = require("./util/DateUtil");
 const moment = require("moment");
+const zipFolder = require("zip-folder");
 
 const bucket = admin.storage().bucket();
 
@@ -14,6 +15,8 @@ const bucket = admin.storage().bucket();
  * Data should contain user email
  */
 module.exports = functions.https.onRequest((req, res) => {
+  const dir = tmp.dirSync({ mode: "0777" });
+
   const email = req.query.email;
 
   if (!(typeof email == "string")) {
@@ -46,44 +49,42 @@ module.exports = functions.https.onRequest((req, res) => {
             "DD.MM.YYYY"
           ]).weeks();
 
-          const ausbildungsJahr = DateUtil.default.getCurrentYearAfterDate(
+          const ausbildungsJahr = DateUtil.getCurrentYearAfterDate(
             user.ausbildungsanfang,
             moment().format("DD.MM.YYYY")
           );
+          console.log(bericht);
 
-          return createFile({
-            name: user.name,
-            betrieb: user.betrieb,
-            ausbilder: user.ausbilder,
-            abteilung: user.abteilung,
-            projekt: user.projekt,
-            bericht_von: bericht.bericht_von,
-            bericht_bis: bericht.bericht_bis,
-            nachweisnr: berichtDoc.id,
-            kalenderwoche: calendarWeek,
-            ausbildungs_jahr: ausbildungsJahr,
-            taetigkeiten: bericht.taetigkeiten,
-            schulungen: bericht.schulungen,
-            schule: bericht.schule,
-            datum_heute: bericht.datum_heute || moment().format("DD.MM.YYYY"),
-            stadt: user.stadt || "Braunschweig"
-          });
+          return createFile(
+            {
+              name: user.name,
+              betrieb: user.betrieb,
+              ausbilder: user.ausbilder,
+              abteilung: user.abteilung,
+              projekt: user.projekt,
+              bericht_von: bericht.dateStart,
+              bericht_bis: bericht.dateEnd,
+              nachweisnr: berichtDoc.id,
+              kalenderwoche: calendarWeek,
+              ausbildungs_jahr: ausbildungsJahr,
+              taetigkeiten: bericht.activities,
+              schulungen: bericht.instructions,
+              schule: bericht.school,
+              datum_heute: bericht.datum_heute || moment().format("DD.MM.YYYY"),
+              stadt: user.stadt || "Braunschweig"
+            },
+            dir
+          );
         });
       });
     });
 
-  const zip = new JSZip().folder("berichte_" + email);
-
   documentPaths.then(paths => {
-    paths.forEach(path => {
-      const fileName = path.split("/")[path.split("/").length - 1];
-      zip.file(fileName, fs.readFileSync(path));
+    const dirPath = dir.name;
+    zipFolder(dirPath, path.join(dirPath, "berichte.zip"), err => {
+      if (err) res.send(err);
+      res.download(path.resolve(dirPath, "berichte.zip"));
     });
-  });
-
-  zip.generateAsync({ type: "blob" }).then(content => {
-    fs.writeFileSync(path.resolve(__dirname, "berichte.zip", content));
-    res.download(path.resolve(__dirname, "berichte.zip"));
   });
 });
 
@@ -92,7 +93,7 @@ module.exports = functions.https.onRequest((req, res) => {
  * @param {Object} data Object containing all data fields
  * @returns {string} path of docx file
  */
-function createFile(data) {
+function createFile(data, dir) {
   let content = fs.readFileSync(
     path.resolve(__dirname, "AusbNachweis_TEMPLATE.docx"),
     "binary"
@@ -152,11 +153,14 @@ function createFile(data) {
     "_" +
     data.nachweisnr +
     ".docx";
-
-  let outfile = tmp.fileSync({ template: documentName });
+  let outfile = tmp.fileSync({
+    postfix: documentName,
+    mode: "0777",
+    dir: dir.name
+  });
   // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-  fs.writeFileSync(path.resolve(outfile.name), buf);
+  const file = fs.writeFileSync(outfile.name, buf, { mode: "0777" });
   console.log(outfile);
 
-  let localPath = path.resolve(outfile.name);
+  return path.resolve(outfile.name);
 }
