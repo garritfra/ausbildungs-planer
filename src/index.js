@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
-import firebase from "firebase";
+import { initializeApp } from "firebase";
+import performance from "firebase/performance";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "../src/components/App";
@@ -29,12 +30,12 @@ const devConfig = {
 };
 
 if (process.env.FIREBASE_STAGE == "production") {
-  firebase.initializeApp(prodConfig);
+  initializeApp(prodConfig);
 } else {
-  firebase.initializeApp(devConfig);
+  initializeApp(devConfig);
   console.info("Firebase is using development environment");
 }
 
-let perf = firebase.performance();
+let perf = performance();
 
 ReactDOM.render(<App />, document.querySelector("#root"));

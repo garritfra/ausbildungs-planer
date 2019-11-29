@@ -1,4 +1,8 @@
-import firebase, { functions } from "firebase";
+import firestore from "firebase/firestore";
+import auth from "firebase/auth";
+import storage from "firebase/storage";
+import app from "firebase/app";
+import performance from "firebase/performance";
 import React from "react";
 import {
   Button,
@@ -38,7 +42,7 @@ export default class Berichte extends React.Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    auth().onAuthStateChanged(user => {
       if (user != undefined) {
         console.log("User: " + user);
         this.setState({ currentUser: user });
@@ -62,8 +66,7 @@ export default class Berichte extends React.Component {
   }
 
   initializeFirebaseRefs() {
-    this.userRef = firebase
-      .firestore()
+    this.userRef = firestore()
       .collection("Users")
       .doc(this.state.currentUser.email);
     this.entriesRef = this.userRef.collection("Berichte");
@@ -78,7 +81,7 @@ export default class Berichte extends React.Component {
   }
 
   onSubmit() {
-    let submitEntryTrace = firebase.performance().trace("submitEntry");
+    let submitEntryTrace = performance().trace("submitEntry");
     submitEntryTrace.start();
 
     this.disableSubmitButton();
@@ -105,7 +108,7 @@ export default class Berichte extends React.Component {
   }
 
   fetchEntry(id) {
-    const fetchEntryTrace = firebase.performance().trace("fetchEntry");
+    const fetchEntryTrace = performance().trace("fetchEntry");
     fetchEntryTrace.start();
     this.disableSubmitButton();
     this.entriesRef
@@ -172,8 +175,7 @@ export default class Berichte extends React.Component {
       .get()
       .then(snapshot => snapshot.data())
       .then(data => {
-        firebase
-          .app()
+        app()
           .functions("us-central1")
           .httpsCallable("exportToDocx")({
             name: data.name,
@@ -199,8 +201,7 @@ export default class Berichte extends React.Component {
           })
           .then(fileName => {
             console.log(fileName);
-            return firebase
-              .storage()
+            return storage()
               .ref(fileName)
               .getDownloadURL();
           })

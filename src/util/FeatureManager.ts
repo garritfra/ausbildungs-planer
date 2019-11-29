@@ -1,5 +1,6 @@
 import { BehaviorSubject } from "rxjs";
-import firebase from "firebase";
+const auth = require("firebase/auth");
+const firestore = require("firebase/firestore");
 
 let _instance: FeatureManager;
 
@@ -12,9 +13,8 @@ export default class FeatureManager {
   private constructor() {
     this.timesheetsEnabled = new BehaviorSubject<boolean>(false);
 
-    firebase.auth().onAuthStateChanged(user => {
-      firebase
-        .firestore()
+    auth().onAuthStateChanged(user => {
+      firestore()
         .collection("Users")
         .doc(user.email)
         .get()

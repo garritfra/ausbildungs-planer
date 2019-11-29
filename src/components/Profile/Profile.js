@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import firebase from "firebase";
+import auth from "firebase/auth";
+import firestore from "firebase/firestore";
 import SubmitSuccessModal from "../Helpers/SubmitSuccessModal";
 import moment from "moment";
 
@@ -24,7 +25,7 @@ export default class Profile extends React.Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    auth().onAuthStateChanged(user => {
       this.setState({ currentUser: user });
       this.fetchData();
     });
@@ -35,8 +36,7 @@ export default class Profile extends React.Component {
   }
 
   fetchData() {
-    this.userRef = firebase
-      .firestore()
+    this.userRef = firestore()
       .collection("Users")
       .doc(this.state.currentUser.email.toString());
 

@@ -9,10 +9,11 @@ import {
   FormGroup,
   Label
 } from "reactstrap";
-import DatePicker from "antd/lib/date-picker";
 import TimesheetEntry from "./TimesheetEntry";
-import firebase from "firebase";
-import DateUtil from "../../util/DateUtil";
+
+import app from "firebase/app";
+import auth from "firebase/auth";
+import firestore from "firebase/firestore";
 import moment from "moment";
 
 export default () => {
@@ -31,9 +32,8 @@ export default () => {
   }, []);
 
   const fetchTimesheets = async () => {
-    const user = firebase.auth().currentUser;
-    const timesheetsRef = await firebase
-      .firestore()
+    const user = auth().currentUser;
+    const timesheetsRef = await firestore()
       .collection("Users")
       .doc(user.email)
       .collection("Zeiterfassung")
@@ -58,8 +58,7 @@ export default () => {
   ));
 
   const submitEntry = async () => {
-    let result = await firebase
-      .app()
+    let result = await app()
       .functions("us-central1")
       .httpsCallable("addTimesheet")({
       date: newTimesheet.date.format("DD.MM.YYYY"),

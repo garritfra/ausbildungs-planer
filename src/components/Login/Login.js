@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import auth from "firebase/auth";
 import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
@@ -21,8 +21,6 @@ export default class Login extends React.Component {
       ]
     };
 
-    return (
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-    );
+    return <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth()} />;
   }
 }

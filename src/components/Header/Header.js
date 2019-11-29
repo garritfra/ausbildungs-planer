@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import auth from "firebase/auth";
 import React from "react";
 import {
   Collapse,
@@ -25,7 +25,7 @@ export default class Header extends React.Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    auth().onAuthStateChanged(user => {
       this.setState({ user: user, isLoggedIn: !!user });
     });
 
@@ -64,7 +64,7 @@ export default class Header extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem hidden={!this.state.isLoggedIn}>
-                <NavLink href="/" onClick={() => firebase.auth().signOut()}>
+                <NavLink href="/" onClick={() => auth().signOut()}>
                   Log Out
                 </NavLink>
               </NavItem>
