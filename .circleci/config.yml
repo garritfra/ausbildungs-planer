@@ -32,7 +32,7 @@ jobs:
       - store_test_results:
           path: coverage
       - store_artifacts:
-          path: dist
+          path: coverage
   build:
     docker:
       - image: circleci/node:10
