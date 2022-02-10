@@ -49,7 +49,7 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "parcel": "^1.12.3",
     "typescript": "^3.5.2"
   }
