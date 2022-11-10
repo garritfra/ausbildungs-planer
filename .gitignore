@@ -60,6 +60,6 @@ typings/
 # next.js build output
 .next
 .cache
-dist
+# dist
 .DS_Store
 .firebase
